@@ -1,12 +1,11 @@
 User = new Mongo.Collection("user");
 
-import { Random } from 'meteor/random'
+import { Random }  from 'meteor/random';
 
 Meteor.methods({
 	'user.getOne': (mail, password) => {
 		let user = User.findOne({ mail: mail });
 		if (user && (user !== undefined)) {
-			// let comparePassword = bcrypt.compareSync(password, user.password)
 
 			if (true || comparePassword){
 				let token = Random.secret() 
