@@ -8,9 +8,7 @@ import {
 
 export class Test extends Component {
 
-	componentDidMount() {
-		console.log("pouet")
-	}
+	componentDidMount() {}
 
 	render() {
 		return(

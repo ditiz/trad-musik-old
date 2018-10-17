@@ -53,3 +53,8 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.nav-item-down {
+	position: absolute;
+	bottom: 0;
+}

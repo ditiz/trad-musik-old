@@ -121,11 +121,12 @@ export class DisplayTraduction extends Component {
                                 </span>
                                 <br/><br/>
                                 <div className='btn-group'>
-                                    <a className='btn btn-secondary' href={"/edit/" + this.state._id}>
-                                        &#9998;
-                                    </a> 
                                     
-                                    <RemoveTraduction traduction_id={this.state._id} goBack='true' />
+                                    <RemoveTraduction 
+                                        traduction_id={this.props.match.params.traduction} 
+                                        useIn='displayTraduction' 
+                                        goBack='true' />
+
                                 </div>
                             </div>
                             <div className="col-6 ">
@@ -149,10 +150,15 @@ export class DisplayTraduction extends Component {
                                         </div>
 
                                         <ScrollSyncPane>
-                                            <div className='card-body bg-light' style={{ overflow: 'auto' }}>
+                                            <div className='card-body bg-light' 
+                                                style={{ overflow: 'auto' }}>
+
                                                 <section style={{ height: "52vh" }}>
-                                                    <div className="render">{this.state.origin}</div>
+                                                    <div className="render">
+                                                        {this.state.origin}
+                                                    </div>
                                                 </section>
+
                                             </div>
                                         </ScrollSyncPane>
                                     </div>
@@ -166,10 +172,15 @@ export class DisplayTraduction extends Component {
                                             </div>
                                         </div>
                                         <ScrollSyncPane>
-                                            <div className='card-body bg-light' style={{ overflow: 'auto' }}>
+                                            <div className='card-body bg-light' 
+                                                style={{ overflow: 'auto' }}>
+
                                                 <section style={{ height: "52vh" }}>
-                                                    <div className="render">{this.state.traduction}</div>
+                                                    <div className="render">
+                                                        {this.state.traduction}
+                                                    </div>
                                                 </section>
+
                                             </div>
                                         </ScrollSyncPane>
                                     </div>

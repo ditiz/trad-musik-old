@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import {
-	BrowserRouter as Router,
-	Route,
 	Link
 } from 'react-router-dom'
 import * as Cookies from "js-cookie";
-
-function Connected () {
-
-}
 
 export class Login extends Component {
 
@@ -25,8 +19,8 @@ export class Login extends Component {
 	
 	componentDidMount() {
 		let self = this;
-		if (Cookies.get("user")){
-			Meteor.call('user.isUser', Cookies.get("user"), (err, res) => {
+		if (Meteor.userId()){
+			Meteor.call('user.isUser', Meteor.userId(), (err, res) => {
 				if (res) {
 					self.setState({
 						info: 'Vous êtes connecté'
@@ -42,30 +36,16 @@ export class Login extends Component {
 		let email = document.getElementById('login-email').value;
 		let password = document.getElementById('login-password').value;
 
-		Meteor.call("user.getOne", email, password, (err, res) => {
+
+		Meteor.loginWithPassword(email, password, (err) => {
 			if (err) {
-
-				this.setState({ error: "Identifiant incorrecte" });
-				Bert.alert(
-					"Les identifiants que vous avez donné semble incorrect",
-					"danger",
-					'growl-top-right'
-				);
-
+				Bert.alert(err.reason, 'danger', 'growl-top-right');
 			} else {
-
-				this.setState({ error: "" });
-				Bert.alert(
-					"Connexion réussi",
-					"success",
-					'growl-top-right'
-				);
-
-				Cookies.set('user', res.token, { expires: 365 });
-				document.location.href = '/';
-				
+				this.props.history.push('/')
 			}
 		});
+
+		console.log(Meteor.userId())
 	}
 
 	render() {

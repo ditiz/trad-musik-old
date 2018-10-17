@@ -1,44 +1,17 @@
-User = new Mongo.Collection("user");
+import { Accounts } from 'meteor/accounts-base';
 
 import { Random }  from 'meteor/random';
 
 Meteor.methods({
-	'user.getOne': (mail, password) => {
-		let user = User.findOne({ mail: mail });
-		if (user && (user !== undefined)) {
-
-			if (true || comparePassword){
-				let token = Random.secret() 
-
-				User.update(
-					{ _id: user._id },
-					{ $set: {
-							token: token,
-							last_login: new Date }
-					}, { upsert: false }	
-				);
-
-				delete user._id;
-				delete user.password;
-
-				user["token"] = token;
-				
-				return user;
-				
-			}else {
-				console.log("wrong password")
-			}
-		}else{
-			throw new Meteor.Error(200, "Utilisateur non trouvé");
+	'user.getOne': (username, password) => {
+		if (Meteor.isServer) {
+			return Meteor.users.find(Meteor.userId())
 		}
-
 	}
 });
 
 Meteor.methods({
 	'user.insertNew': (user) => {
-
-		return "disable";
 
 		if (user.mail == "") {
 			new Meteor.Error(200, "Aucune adresse mail donné");
@@ -47,32 +20,38 @@ Meteor.methods({
 		} else if (user.username) {
 			new Meteor.Error(200, "Aucun nom utilisateur donné");
 		}
-
+		
 		//Test if the mail already exist
-		let userExist = User.find({ mail: user.mail }).count();
+		let userEmailExist = false;
+		let usernameExist = false;
 
-		if (userExist) {
-			new Meteor.Error(200, "Adresse mail déjà utilisé");
+		if (Meteor.isServer) {
+			userEmailExist = Accounts.findUserByEmail(user.mail);
+			usernameExist = Accounts.findUserByUsername(user.username)
+		}
+
+		if (userEmailExist || usernameExist) {
+			new Meteor.Error(200, "Information d'utilisateur déjà utilisé");
 		}
 		
 		// hash of the password
 		let password = user.password;
-
-		newUsers = {
-			mail: 		user.mail,
+		
+		newUser = {
+			email: 		user.mail,
 			username: 	user.username,
 			password: 	password
 		}
-
-		User.insert(newUsers);
+		
+		Accounts.createUser(newUser);
 
 		return true;
 	}
 });
 
 Meteor.methods({
-	'user.isUser': (user_token) => {
-		user = User.findOne({ token: user_token });
+	'user.isUser': (user_id) => {
+		user = Meteor.users.findOne({ _id: user_id });
 
 		if (typeof user !== 'undefined') {
 			return true

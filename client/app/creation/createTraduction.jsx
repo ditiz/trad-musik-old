@@ -32,7 +32,7 @@ export class CreateTraduction extends Component {
     componentWillMount () {
         if (this.props.match.params.traduction) {
             Meteor.call("traduction.getOne", this.props.match.params.traduction, 
-                { user: Cookies.get("user"), action : "edit"}, 
+                { user: Meteor.userId(), action : "edit"}, 
                 function (err, res) {
 
                 if (err || !res) {
@@ -93,7 +93,7 @@ export class CreateTraduction extends Component {
         })();
 
         //add user token
-        this.setState({user: Cookies.get('user')});
+        this.setState({user: Meteor.userId()});
     }
 
     resetTextField = () => {
@@ -151,13 +151,12 @@ export class CreateTraduction extends Component {
         switch (this.state.action) {
             case 'create':
 
-                this.state.user = Cookies.get("user")
+                this.state.user = Meteor.userId()
 
                 Meteor.call('traduction.insertNew', this.state, function (err, result) {
                     console.clear();
                     if (err) {
                         alert("Erreur");
-                        console.log(err);
                     } else {
                         Bert.alert('La traduction a été enregisté', 'success', 'growl-top-right');
                         resetTextField();

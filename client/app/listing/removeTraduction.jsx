@@ -8,16 +8,17 @@ import * as Cookies from 'js-cookie';
 
 export class RemoveTraduction extends Component {
 
-	constructor(props, context){
+	constructor(props){
 		super(props);
 
 		// TODO: ne pas afficher le bouton supprimer si pas les droits
 		this.state = {
-			display: false
+			displayRemove: false,
+			displayEdit: false
 		}
 
-		if (!Cookies.get('user')) {
-			this.state.display = false;
+		if (!Meteor.userId()) {
+			this.state.displayRemove = false;
 		}
 		
 		this.removeTrad = this.removeTrad.bind(this);
@@ -25,16 +26,22 @@ export class RemoveTraduction extends Component {
 
 	componentWillMount () {
 		let self = this;
-		
+
 		Meteor.call(
 			"traduction.canRemove", 
 			this.props.traduction_id,
-			Cookies.get('user'), 
+			Meteor.userId(), 
 			(err, res) => {
 				if (res) {
 					self.setState({
-						display: true
+						displayRemove: true
 					});
+				
+					if (this.props.useIn == "displayTraduction") {
+						self.setState({
+							displayEdit: true
+						});
+					}
 				}
 			}
 		);
@@ -45,9 +52,9 @@ export class RemoveTraduction extends Component {
 		var rep = confirm("Êtes-vous sûr de vouloir supprimer cette traduction ?");
 
 		if (rep) {
-			Meteor.call("traduction.removeOne", traduction_id, Cookies.get('user'), 
+			Meteor.call("traduction.removeOne", traduction_id, Meteor.userId(), 
 			function (err, res) {
-				console.clear();
+				// console.clear();
 				if (err) {
 					Bert.alert(err.reason, "danger", 'growl-top-right');
 				} else {
@@ -75,14 +82,23 @@ export class RemoveTraduction extends Component {
 
 	render() {
 		return (
-				<>{ this.state.display &&
-					<div className='btn btn-danger'
+			<div className="btn-group" style={{width: "300px"}}>
+				{ this.state.displayEdit && 
+					<div className="col-2 pull-right">
+						<a className='btn btn-secondary' href={"/edit/" + this.state._id}>
+							&#9998;
+						</a> 
+					</div>
+				}
+				{ this.state.displayRemove &&
+					<div className='btn btn-danger' style={{ cursor: "pointer" }}
 						onClick={(e) => this.removeTrad(e, this.props.traduction_id)}>
 
 						<span>&times;</span>
 
 					</div>
-				}</>
+				}
+			</div>
 		)
 	}
 }

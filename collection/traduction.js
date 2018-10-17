@@ -25,7 +25,7 @@ Meteor.methods({
             new Meteor.Error(200, "Vous n'êtes pas connecté");
         }
 
-        let user = User.findOne({ token: traduction.user });
+        let user = Meteor.users.findOne({ _id: traduction.user });
 
         if (typeof user != 'undefined') {
             Insert = {
@@ -57,7 +57,7 @@ Meteor.methods({
             new Meteor.Error(200, "La traduction a mettre a jour n'a pas été trouvé");
         }
 
-        let user = User.findOne({ token: traduction.user });
+        let user = Meteor.users.findOne({ _id: traduction.user });
 
         if (typeof user === undefined) {
             new Meteor.Error(200, "Vous n'êtes pas connecté");
@@ -80,41 +80,51 @@ Meteor.methods({
 Meteor.methods({
     'traduction.getOne': function (traduction_id, params) {
         let traduction = Traduction.findOne({ _id: traduction_id });
-
-        if (params == null) {
-            return traduction;
-        } else if (params.action = 'edit' && params.user) {
-            let user = User.findOne({token: params.user});
-            
-            if (traduction.user == user._id) {
+        
+        if (typeof traduction !== undefined) {
+            if (params == null) {
                 return traduction;
+            } else if (params.action = 'edit' && params.user) {
+                let user = Meteor.users.findOne({ _id: params.user });
+
+                if (traduction.user == user._id) {
+                    return traduction;
+                }
             }
-        }
+        } 
 
         return false;
     }
 });
 
 Meteor.methods({
-    'traduction.canRemove': function (traduction_id, user_token) {
-        let user = User.findOne({ token: user_token });
-        let traduction = Traduction.findOne({ _id: traduction_id });
+    'traduction.canRemove': (traduction_id, user_id) => {
+       if (Meteor.isServer) {
+           let user = Meteor.users.findOne({ _id: user_id });
+           let traduction = Traduction.findOne({ _id: traduction_id });
+           
+           if (typeof user == 'undefined' || typeof traduction == 'undefined') {
+               return false;
+           }
 
-        if (typeof user !== undefined) {
-            if (user.admin == 1 || traduction.user == user._id) {
-                return true; 
-            } else {
-                return false;
-            }
-        }
+           if (user.admin == 1 || (traduction.user == user._id)) {
+               return true;
+           }
+
+           return false;
+       }
     }
 });
 
 Meteor.methods({
-    'traduction.removeOne': function (traduction_id, user_token) {
+    'traduction.removeOne': function (traduction_id, user_id) {
 
-        let user = User.findOne({ token: user_token });
+        let user = Meteor.users.findOne({ _id: user_id });
         let traduction = Traduction.findOne({ _id: traduction_id });
+
+        if (typeof user == 'undefined' || typeof traduction == 'undefined') {
+            return false;
+        }
 
         if (typeof user === undefined) {
             new Meteor.Error(200, "Vous n'êtes pas connecté");
@@ -127,7 +137,6 @@ Meteor.methods({
                 return false;
             }
         }
-
     } 
 });
 

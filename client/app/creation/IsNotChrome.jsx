@@ -64,14 +64,14 @@ export class IsNotChrome extends Component {
 		//cas chrome
 		else {
 			return (
-				<div className='alert alert-info container form-inline col-4'>
+				<div className='alert alert-info form-inline parallelHightlight-parent'>
 					<label className="switch">
 						<input type="checkbox" id="checkBoxParallelHightlight" />
 						<span className="slider round" onClick={
 							() => this.changeParallelHightlight()}>
 						</span>
 					</label>
-					<div style={{ margin: "0 10px" }}>ParralelHighlight</div>
+					<div style={{ margin: "auto" }}>Localision de texte en parallèle</div>
 				</div>
 			);
 		}

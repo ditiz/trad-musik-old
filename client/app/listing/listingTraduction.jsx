@@ -27,11 +27,16 @@ function ListAllTraduction(props) {
 
         rendu = traductions.map(
             (traduction, index) => (
-                <div className='col-12 col-lg-3' key={traduction._id}> 
-                    <div className="listing-item alert alert-dark"
+                <div className='col-12 col-lg-3 col-sm-5' key={traduction._id}> 
+                    <div className="listing-item container-fluid alert alert-dark"
                         style={{color: "white !important"}}
                         id={traduction._id}>
-                        <div className="row">
+                        <div className="col-2 pull-right p-1">
+                            <RemoveTraduction traduction_id={traduction._id}
+                                useIn='listingTraduction'
+                                goBack='false'/>
+                        </div>
+                        <div>
                             <div className="col-9">
                                 <Link to={"/show/" + traduction._id}>
                                     <div>
@@ -46,11 +51,9 @@ function ListAllTraduction(props) {
                                     </div>
                                 </Link>
                             </div>
-                            <div className="col-2">
-                                <RemoveTraduction traduction_id={traduction._id} />
-                            </div>
+                            
                         </div>
-                        <div className="col-12">
+                        <div className="col-12 p-3">
                             <DisplayImage link={traduction.link} height="auto" width="auto" />
                         </div>
                     </div>

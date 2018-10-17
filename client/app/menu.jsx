@@ -13,6 +13,7 @@ import { Dashbord } from "./dashboard";
 // import { LoginPage } from "./auth/login"; 
 import { Signup } from "./auth/signupPage";
 import { Login } from "./auth/loginPage";
+import { Logout } from "./auth/logoutPage";
 
 import "./css/slider";
 
@@ -23,31 +24,59 @@ function Actions() {
             text: "Liste des musiques traduites",
             idAction: 1,
             url: "/List",
-            icon: "fa fa-music"
-        },
-        {
+            icon: "/img/music-list2.png"
+
+        },{
             text: "Créer une nouvelle traduction",
             idAction: 2,
-            url: "/Create"
+            url: "/Create",
+            icon: "/img/music-plus.png"
+        },{
+            text: 'Logout',
+            idAction: 3,
+            url: "/Logout",
+            icon: "/img/logout.png",
+            down: true
         }
     ];
     
-    const htmlActions = actions.map( (object) => 
-        <div key={object.idAction}>
-            <li
-            className='nav-item'
-            id={object.idAction}>
+    const htmlActions = actions.map( (object) => {
+        if (object.down) {
+            return (
+                <div key={object.idAction}>
+                    <li
+                        className='nav-item-down'
+                        id={object.idAction}>
 
-                <Link to={object.url} className="menu-item">
-                    <p className='nav-link'>
-                        <span>
-                            {object.text}
-                        </span>
-                    </p>
-                </Link>
+                        <Link to={object.url} className="menu-item">
+                            <p className='nav-link' title={object.text}>
+                                <img src={object.icon} className="icon-menu" content={object.text} />
+                            </p>
+                        </Link>
 
-            </li>
-        </div>
+                    </li>
+                </div>
+            );
+        } else {
+                return (
+                    <div key={object.idAction}>
+                        <li
+                            className='nav-item'
+                            id={object.idAction}>
+    
+                            <Link to={object.url} className="menu-item">
+                                <p className='nav-link' title={object.text}>
+                                    <img src={object.icon} className="icon-menu" content={object.text} />
+                                </p>
+                            </Link>
+    
+                        </li>
+                    </div>
+                );
+
+        }
+    }
+       
         
     );
 
@@ -56,7 +85,7 @@ function Actions() {
             <Router>
                 <div className='row'>
 
-                    <div className='col-2'>
+                    <div className=''>
                         <div className="menu">
                             <ul className='nav flex-column'>
                                 {htmlActions}
@@ -65,7 +94,7 @@ function Actions() {
                     </div>
 
 
-                    <div className='col-10'>
+                    <div className='content col-10'>
                         <Route exact path="/" component={ListingTraduction}/>
                         <Route path='/Dashbord' component={Dashbord}/>   
                         <Route path="/List" component={ListingTraduction} />
@@ -74,6 +103,7 @@ function Actions() {
                         <Route path="/edit/:traduction" component={CreateTraduction}/>
                         <Route path="/Login" component={Login}/>
                         <Route path="/Signup" component={Signup}/>
+                        <Route path="/Logout" component={Logout}/>
                     </div>
                 </div>
             </Router>

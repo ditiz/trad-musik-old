@@ -8,50 +8,39 @@ li {
     white-space: pre-line;
 }
 
- @media (max-width: 989px) {
-     .menu-item {
-        color: #919191;
-        font-size: 10px ;
-    }
-
+.menu-item {
+    color: #919191;
+    font-size: 20px;
+}
     .menu {
-        background-color: #343a40;
-        width: 100px;
-        height: 100%;
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        overflow-x: hidden;
-        padding-top: 20px;
-    }
+    background-color: #343a40;
+    height: 100%;
+    width: 150px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
 }
 
- @media (min-width: 990px) {
-     .menu-item {
-        color: #919191;
-        font-size: 20px;
-    }
-     .menu {
-        background-color: #343a40;
-        height: 100%;
-        width: 200px;
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        overflow-x: hidden;
-        padding-top: 20px;
-    }
-
-    .listing-item {
-        min-height: 20em;
-    }
+.listing-item {
+    min-height: 20em;
 }
 
 .menu-item:hover {
      color: #FFF;
      text-decoration: none;
+}
+
+.icon-menu {
+  width: 100px;
+  margin: auto;
+  transition: 200ms;
+}
+
+.icon-menu:hover {
+    filter: invert(100%);
 }
 
 .button-search {
@@ -70,4 +59,16 @@ li {
     border-left: 1px solid rgb(146, 146, 146);
     border-top: 1px solid rgb(146, 146, 146);
     border-bottom: 1px solid rgb(146, 146, 146);
+}
+
+.parallelHightlight-parent {
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row wrap;
+    width: 50%;
+    margin: auto;
+}
+
+.content {
+    margin-left: 200px;
 }
