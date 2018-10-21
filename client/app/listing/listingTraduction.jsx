@@ -33,8 +33,7 @@ function ListAllTraduction(props) {
                         id={traduction._id}>
                         <div className="col-2 pull-right p-1">
                             <RemoveTraduction traduction_id={traduction._id}
-                                useIn='listingTraduction'
-                                goBack='false'/>
+                                useIn='listingTraduction'/>
                         </div>
                         <div>
                             <div className="col-9">
@@ -94,6 +93,10 @@ export class ListingTraduction extends Component {
     }
 
     componentWillMount() {
+        if (document.getElementById('app').style.display == 'none') {
+            document.getElementById('app').style.display = 'initial';
+        }
+
         Meteor.call("traduction.getAll", function (error, result) {
             if (error) {
                 Bert.alert(

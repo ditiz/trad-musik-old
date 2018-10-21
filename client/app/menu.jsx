@@ -58,22 +58,20 @@ function Actions() {
                 </div>
             );
         } else {
-                return (
-                    <div key={object.idAction}>
-                        <li
-                            className='nav-item'
-                            id={object.idAction}>
-    
-                            <Link to={object.url} className="menu-item">
-                                <p className='nav-link' title={object.text}>
-                                    <img src={object.icon} className="icon-menu" content={object.text} />
-                                </p>
-                            </Link>
-    
-                        </li>
-                    </div>
-                );
-
+            return (
+                <div key={object.idAction}>
+                    <li className='nav-item' id={object.idAction}>
+                        <Link to={object.url} className="menu-item">
+                            <p className='nav-link' title={object.text}>
+                                <img src={object.icon} 
+                                    className="icon-menu" 
+                                    alt={object.text} 
+                                    title={object.text}/>
+                            </p>
+                        </Link>
+                    </li>
+                </div>
+            );
         }
     }
        

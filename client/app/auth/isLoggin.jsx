@@ -16,7 +16,6 @@ export class IsLoggin extends Component {
 	}
 
 	componentWillMount () {
-		console.log(Meteor.userId())
 		if (!Meteor.userId())  {
 			this.setState({ redirect: true })
 			Bert.alert(

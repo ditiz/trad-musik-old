@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { IsNotChrome } from "./IsNotChrome";
 import { IsLoggin } from '../auth/isLoggin';
-import * as Cookies from 'js-cookie';
+import { Redirect } from 'react-router-dom';
 
 export class CreateTraduction extends Component {
 
@@ -18,18 +18,19 @@ export class CreateTraduction extends Component {
             traduction:        '',
             displayTraduction: '',
             action:            'create',
-            user:              ''
+            user:              '',
+            redirect:          '',
         };
 
         this.changeTitle        = this.changeTitle.bind(this);
         this.changeArtist       = this.changeArtist.bind(this);
         this.changeLink         = this.changeLink.bind(this);
         this.useTextArea        = this.useTextArea.bind(this);
-
+        this.resetTextField     = this.resetTextField.bind(this);
         this.handleSubmit       = this.handleSubmit.bind(this);
     }
 
-    componentWillMount () {
+    componentWillMount() {
         if (this.props.match.params.traduction) {
             Meteor.call("traduction.getOne", this.props.match.params.traduction, 
                 { user: Meteor.userId(), action : "edit"}, 
@@ -79,7 +80,7 @@ export class CreateTraduction extends Component {
         }        
     }
 
-    componentDidMount () {
+    componentDidMount() {
         console.clear();
         //Undisplay error 
         console.error = (function () {
@@ -92,7 +93,7 @@ export class CreateTraduction extends Component {
             }
         })();
 
-        //add user token
+        //add user id
         this.setState({user: Meteor.userId()});
     }
 
@@ -154,12 +155,10 @@ export class CreateTraduction extends Component {
                 this.state.user = Meteor.userId()
 
                 Meteor.call('traduction.insertNew', this.state, function (err, result) {
-                    console.clear();
                     if (err) {
                         alert("Erreur");
                     } else {
                         Bert.alert('La traduction a été enregisté', 'success', 'growl-top-right');
-                        resetTextField();
                         // this.setState({ action: "update" });
                     }
                 });
@@ -171,6 +170,9 @@ export class CreateTraduction extends Component {
                         alert("Erreur : ", err.reason);
                     } else {
                         Bert.alert('La traduction a été mise a jour', 'success', 'growl-top-right');
+                        this.setState({
+                            redirect: '/show/' + this.state._id
+                        })
                     }
                 });
                 break;
@@ -180,15 +182,15 @@ export class CreateTraduction extends Component {
         }
     }
 
-    changeTitle (e) {
+    changeTitle(e) {
         this.setState({ title: e.target.value });
     }
 
-    changeArtist (e) {
+    changeArtist(e) {
         this.setState({ artist: e.target.value });
     }
 
-    changeLink (e) {
+    changeLink(e) {
         this.setState({ link: e.target.value });
     }
 
@@ -305,7 +307,7 @@ export class CreateTraduction extends Component {
        
     }
 
-    pasteAction (e, side, other) {  
+    pasteAction(e, side, other) {  
         if (!localStorage.parallelHightlight || localStorage.parallelHightlight == 0) {
             return false;
         }
@@ -339,7 +341,7 @@ export class CreateTraduction extends Component {
         this.useTextArea(side, other);
     }
 
-    loseFocus () {
+    loseFocus() {
         if (!!window.chrome && !!window.chrome.webstore) {
             var areaTexts = [
                 document.getElementById("origin"),
@@ -363,7 +365,11 @@ export class CreateTraduction extends Component {
         }
     }
 
-    render () {
+    render() {
+        if (this.state.redirect != '') {
+            <Redirect to={this.state.redirect}/>
+        }
+
         return ( 
             <div className="container-fluid col-12">
                 <IsLoggin/>    
@@ -473,6 +479,6 @@ export class CreateTraduction extends Component {
                     </form>
                 </div> 
             </div>
-        )
+        );
     }
 }

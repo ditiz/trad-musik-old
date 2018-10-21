@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import {
 	BrowserRouter as Router,
+	withRouter,
 	Route,
-	Link
+	Link,
+	Redirect
 } from 'react-router-dom';
 import * as Cookies from 'js-cookie';
 
@@ -14,7 +16,8 @@ export class RemoveTraduction extends Component {
 		// TODO: ne pas afficher le bouton supprimer si pas les droits
 		this.state = {
 			displayRemove: false,
-			displayEdit: false
+			displayEdit: false,
+			redirect: false
 		}
 
 		if (!Meteor.userId()) {
@@ -48,13 +51,13 @@ export class RemoveTraduction extends Component {
 	}
 
 	removeTrad(e, traduction_id) {
+		let self = this;
 		var elementWithKey = e.target;
 		var rep = confirm("Êtes-vous sûr de vouloir supprimer cette traduction ?");
 
 		if (rep) {
 			Meteor.call("traduction.removeOne", traduction_id, Meteor.userId(), 
 			function (err, res) {
-				// console.clear();
 				if (err) {
 					Bert.alert(err.reason, "danger", 'growl-top-right');
 				} else {
@@ -68,7 +71,9 @@ export class RemoveTraduction extends Component {
 						elementWithKey.style.display = "none";
 
 						if (this.props.goBack) {
-							document.location.href = '/List';
+							self.setState({
+								redirect: true
+							})
 						}
 						
 					} else {
@@ -81,11 +86,16 @@ export class RemoveTraduction extends Component {
 	}
 
 	render() {
+
+		if (this.state.redirect) {
+			return (<Redirect exact to='/List'/>);
+		}
+
 		return (
 			<div className="btn-group" style={{width: "300px"}}>
 				{ this.state.displayEdit && 
 					<div className="col-2 pull-right">
-						<a className='btn btn-secondary' href={"/edit/" + this.state._id}>
+						<a className='btn btn-secondary' href={"/edit/" + this.props.traduction_id}>
 							&#9998;
 						</a> 
 					</div>
@@ -95,7 +105,6 @@ export class RemoveTraduction extends Component {
 						onClick={(e) => this.removeTrad(e, this.props.traduction_id)}>
 
 						<span>&times;</span>
-
 					</div>
 				}
 			</div>

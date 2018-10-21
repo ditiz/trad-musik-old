@@ -60,3 +60,15 @@ Meteor.methods({
 		}
 	}
 });
+
+Meteor.methods({
+	'user.isAdmin': (user_id) => {
+		user = Meteor.users.findOne({ _id: user_id }, { admin: 1 });
+
+		if (typeof user !== 'undefined' && user.admin) {
+			return true
+		} else {
+			return false
+		}
+	}
+});

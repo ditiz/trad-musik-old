@@ -41,11 +41,17 @@ export class Login extends Component {
 			if (err) {
 				Bert.alert(err.reason, 'danger', 'growl-top-right');
 			} else {
-				this.props.history.push('/')
+				Meteor.call('user.isAdmin', Meteor.userId(), (err, res) => {
+					if (res) {
+						Bert.alert('Vous êtes connecter en tant qu\'admin', 'success', 'growl-top-right');
+						this.props.history.push('/')
+					} else {
+						Bert.alert('Vous êtes connecter', 'success', 'growl-top-right');
+						this.props.history.push('/')
+					}
+				})
 			}
 		});
-
-		console.log(Meteor.userId())
 	}
 
 	render() {
