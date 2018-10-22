@@ -24,26 +24,33 @@ Meteor.methods({
             } else if (traduction.user == "") {
                 new Meteor.Error(200, "Vous n'êtes pas connecté");
             }
-            
+                        
             let user = Meteor.users.findOne({ _id: traduction.user });
             let traductionInDB = Traduction.findOne({ 
                 title: traduction.title, 
-                artist: traduction.artist 
+                artist: traduction.artist,
+                user: Meteor.userId()
             });
 
-            if (typeof user != 'undefined' && traductionInDB != 'undefined') {
+            if (typeof user != 'undefined' 
+            && typeof traductionInDB != 'undefined'
+            && Meteor.userId() == traductionInDB.user) {
+
                 let updateTraduction = {};
                 if (traductionInDB.origin != traduction.origin) {
                     updateTraduction.origin = traduction.origin;
-                } else if (traductionInDB.traducion != traduction.traducion) {
-                    updateTraduction.traducion = traduction.traducion;
+                } 
+                if (traductionInDB.traduction != traduction.traduction) {
+                    updateTraduction.traduction = traduction.traduction;
                 }
-
-                Traduction.update(
-                    { _id: traduction._id },
-                    updateTraduction,
-                    { upsert: false }
-                );
+                
+                if (updateTraduction.traduction || updateTraduction.origin) {
+                    Traduction.update(
+                        { _id: traductionInDB._id },
+                        { $set: updateTraduction },
+                        { upsert: false }
+                    );
+                }
 
                 return {status: 'updated'};
             } else if (typeof user != 'undefined' ) {
