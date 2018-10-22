@@ -25,7 +25,15 @@ li {
 }
 
 .listing-item {
-    min-height: 20em;
+    height: 25em;
+}
+
+.listing-item-image {
+    position: absolute;
+    bottom:3%;
+    left:5%;  
+    right:5%;  
+    margin: auto;
 }
 
 .menu-item:hover {

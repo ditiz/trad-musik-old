@@ -31,7 +31,7 @@ export class IsLoggin extends Component {
 						"danger",
 						'growl-top-right'
 					);
-					this.setState({ redirect: true})
+					this.setState({ redirect: true });
 				}
 			});
 		}

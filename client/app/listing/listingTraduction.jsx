@@ -52,7 +52,7 @@ function ListAllTraduction(props) {
                             </div>
                             
                         </div>
-                        <div className="col-12 p-3">
+                        <div className="listing-item-image">
                             <DisplayImage link={traduction.link} height="auto" width="auto" />
                         </div>
                     </div>

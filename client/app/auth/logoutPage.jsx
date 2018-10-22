@@ -9,16 +9,29 @@ export class Logout extends Component {
 
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			redirect: false
+		}
 	}
 
 	
 	componentWillMount() {
-		Meteor.logout(e => {
-			Bert.alert('Déconnexion', 'success', 'growl-top-right');
+		let self = this;
+		Meteor.logout((err) => {
+			if (!err) {
+				Bert.alert('Déconnexion', 'success', 'growl-top-right');
+				self.setState({
+					redirect: true
+				})
+			}
 		})
 	}
 
 	render() {
-		return(<Redirect to='/Login'/>);
+		if (this.state.redirect) {
+			return(<Redirect to='/Login'/>);
+		}
+		return(<></>);
 	}
 }
