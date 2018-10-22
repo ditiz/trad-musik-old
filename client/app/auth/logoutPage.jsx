@@ -18,9 +18,13 @@ export class Logout extends Component {
 	
 	componentWillMount() {
 		let self = this;
+		let user_id = Meteor.userId();
+
 		Meteor.logout((err) => {
 			if (!err) {
-				Bert.alert('Déconnexion', 'success', 'growl-top-right');
+				if (user_id) {
+					Bert.alert('Déconnexion', 'success', 'growl-top-right');
+				}
 				self.setState({
 					redirect: true
 				})

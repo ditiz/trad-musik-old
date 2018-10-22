@@ -24,10 +24,29 @@ Meteor.methods({
             } else if (traduction.user == "") {
                 new Meteor.Error(200, "Vous n'êtes pas connecté");
             }
-
+            
             let user = Meteor.users.findOne({ _id: traduction.user });
+            let traductionInDB = Traduction.findOne({ 
+                title: traduction.title, 
+                artist: traduction.artist 
+            });
 
-            if (typeof user != 'undefined') {
+            if (typeof user != 'undefined' && traductionInDB != 'undefined') {
+                let updateTraduction = {};
+                if (traductionInDB.origin != traduction.origin) {
+                    updateTraduction.origin = traduction.origin;
+                } else if (traductionInDB.traducion != traduction.traducion) {
+                    updateTraduction.traducion = traduction.traducion;
+                }
+
+                Traduction.update(
+                    { _id: traduction._id },
+                    updateTraduction,
+                    { upsert: false }
+                );
+
+                return {status: 'updated'};
+            } else if (typeof user != 'undefined' ) {
                 Insert = {
                     artist: traduction.artist,
                     title: traduction.title,
@@ -35,9 +54,11 @@ Meteor.methods({
                     origin: traduction.origin,
                     traduction: traduction.traduction,
                     user: user._id
-                }
+                };
 
                 Traduction.insert(Insert);
+                
+                return { status: 'created' };
             } else {
                 new Meteor.Error(200, "Vous n'êtes pas connecté");
             }

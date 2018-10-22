@@ -12,7 +12,8 @@ li {
     color: #919191;
     font-size: 20px;
 }
-    .menu {
+
+.menu {
     background-color: #343a40;
     height: 100%;
     width: 150px;
@@ -25,7 +26,7 @@ li {
 }
 
 .listing-item {
-    height: 25em;
+    height: 27em;
 }
 
 .listing-item-image {

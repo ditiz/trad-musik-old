@@ -26,7 +26,6 @@ export class CreateTraduction extends Component {
         this.changeArtist       = this.changeArtist.bind(this);
         this.changeLink         = this.changeLink.bind(this);
         this.useTextArea        = this.useTextArea.bind(this);
-        this.resetTextField     = this.resetTextField.bind(this);
         this.handleSubmit       = this.handleSubmit.bind(this);
     }
 
@@ -97,14 +96,6 @@ export class CreateTraduction extends Component {
         this.setState({user: Meteor.userId()});
     }
 
-    resetTextField = () => {
-        // document.getElementById("artist").value = "";
-        // document.getElementById("title").value = "";
-        // document.getElementById("link").value = "";
-        // document.getElementById("origin").innerHTML = "";
-        // document.getElementById("traduction").innerHTML = "";
-    }
-
 
     handleSubmit = () => { 
         if (!localStorage.parallelHightlight || localStorage.parallelHightlight == 0) {
@@ -152,14 +143,15 @@ export class CreateTraduction extends Component {
         switch (this.state.action) {
             case 'create':
 
-                this.state.user = Meteor.userId()
+                this.state.user = Meteor.userId();
 
                 Meteor.call('traduction.insertNew', this.state, function (err, result) {
                     if (err) {
                         alert("Erreur");
-                    } else {
+                    } else if (result.status == 'created'){
                         Bert.alert('La traduction a été enregisté', 'success', 'growl-top-right');
-                        // this.setState({ action: "update" });
+                    } else if (result.status == 'updated') {
+                        Bert.alert('La traduction a été mise à jour', 'success', 'growl-top-right');
                     }
                 });
 
