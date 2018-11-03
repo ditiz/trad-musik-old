@@ -117,7 +117,7 @@ Meteor.methods({
                } else if (params.action = 'edit' && params.user) {
                    let user = Meteor.users.findOne({ _id: params.user });
 
-                   if (traduction.user == user._id) {
+                   if (traduction.user == user._id || user.admin == 1) {
                        return traduction;
                    }
                }
