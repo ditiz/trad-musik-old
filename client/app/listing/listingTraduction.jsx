@@ -62,8 +62,7 @@ function ListAllTraduction(props) {
     }
 
     return rendu;
-} 
-
+}
 
 export class ListingTraduction extends Component {
     
@@ -114,7 +113,7 @@ export class ListingTraduction extends Component {
     search () {
         let search = document.getElementById("bar-search").value;
         
-        Meteor.call("traduction.searchTraduction", search, function (error, result) {
+        Meteor.call("traduction.searchTraduction", search, (error, result) => {
             if (error) {
                 alert("Erreur");
             } else {
@@ -122,16 +121,60 @@ export class ListingTraduction extends Component {
 
                 this.setState({ traductions: allTraduction });
             }
-        }.bind(this));
+        });
+    }
+
+    getMyTraduction() {
+        let self = this;
+        Meteor.call("traduction.getByUser", Meteor.userId(), (err, res) => {
+            if (err){
+                alert("Erreur");
+            } else {
+                self.setState({
+                    traductions: res,
+                    onlyMine: true
+                })
+            } 
+        });
+    }
+
+    getAllTraduction() {
+        let self = this;
+        Meteor.call("traduction.getAll", (error, result) => {
+            if (error) {
+                Bert.alert(
+                    "Erreur, veuillez contacter un administrateur",
+                    "danger",
+                    'growl-top-right'
+                );
+            } else {
+                var allTraduction = result;
+                self.setState({ 
+                    traductions: allTraduction,
+                    onlyMine: false 
+                });
+            }
+        });
     }
      
     render () {
+        const ButtonGetMyTraductions = (
+            <button className="btn btn-success" onClick={() => this.getMyTraduction()}>Mes traductions</button>
+        );
+
+        const ButtonGetAllTraductions = (
+            <button className="btn btn-success" onClick={() => this.getAllTraduction()}>Toutes les traductions</button>
+        );
+
         return (
             <div className="container-fluid col-12">
                 <br/>
                 <div className="card">
                     <div className="card-header text-white bg-dark">
                         <h2>Liste des musiques traduites</h2>
+                        <div className="pull-right">
+                            {this.state.onlyMine ? ButtonGetAllTraductions : ButtonGetMyTraductions}
+                        </div>
                     </div>
 
                     <div className="card-body form-group">

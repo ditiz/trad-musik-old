@@ -129,6 +129,25 @@ Meteor.methods({
 });
 
 Meteor.methods({
+    'traduction.getByUser': function (user_id) {
+        if (Meteor.isServer) {
+            let resTraductions = Traduction.find({ user: user_id });
+            
+            let traductions = [];
+            resTraductions.forEach((e) => {
+                traductions.push(e)
+            });
+
+            if (typeof traductions !== undefined) {
+                return traductions;
+            }
+
+            return false;
+        }
+    }
+});
+
+Meteor.methods({
     'traduction.canRemove': (traduction_id, user_id) => {
        if (Meteor.isServer) {
            let user = Meteor.users.findOne({ _id: user_id });
