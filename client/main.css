@@ -81,3 +81,13 @@ li {
 .content {
     margin-left: 200px;
 }
+
+.link-white {
+    text-decoration: none;
+    color: white;
+}
+
+.link-white:hover {
+    text-decoration: underline;
+    color: white;
+}

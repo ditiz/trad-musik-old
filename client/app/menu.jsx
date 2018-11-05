@@ -96,7 +96,8 @@ function Actions() {
                         <Route exact path="/" component={ListingTraduction}/>
                         <Route exact path='/Dashbord' component={Dashbord}/>   
                         <Route exact path="/List" component={ListingTraduction} />
-                        <Route exact path="/List/:userId" component={ListingTraduction} />
+                        <Route exact path="/List/User/:user" component={ListingTraduction} />
+                        <Route exact path="/List/Artist/:artist" component={ListingTraduction} />
                         <Route exact path="/Create" component={CreateTraduction} />
                         <Route exact path="/show/:traduction" component={DisplayTraduction}/>
                         <Route exact path="/edit/:traduction" component={CreateTraduction}/>

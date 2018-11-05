@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
+
+import { Link } from 'react-router-dom';
 
 import { ScrollSync, ScrollSyncPane } from 'react-scroll-sync';
 import { DisplayImage } from './displayImage'; 
@@ -15,7 +16,9 @@ export class DisplayTraduction extends Component {
             artist: "",
             link: "",
             origin: "",
-            traduction: ""
+            traduction: "",
+            user: "",
+            username: ""
         };
     }
 
@@ -63,6 +66,7 @@ export class DisplayTraduction extends Component {
     }
 
     componentWillMount () {
+        let self = this;
         Meteor.call("traduction.getOne", this.props.match.params.traduction, function (err, res) {
             if (err) {
                 Bert.alert("La traduction n'a pas pu être récupéré", "danger")
@@ -99,7 +103,16 @@ export class DisplayTraduction extends Component {
                     artist:     res.artist,
                     link:       res.link,
                     origin:     origin,
-                    traduction: traduction
+                    traduction: traduction,
+                    user:       res.user
+                });
+
+                Meteor.call("user.getUsername", res.user, (err, res) => {
+                    if (err) {
+                        alert('erreur');
+                    } else {
+                        self.setState({ username: res });
+                    }
                 });
             }
         }.bind(this));
@@ -117,7 +130,15 @@ export class DisplayTraduction extends Component {
                             <div className='col-6'>
                                 <h3>{this.state.title}</h3>
                                 <span>
-                                    <small>Par : </small> {this.state.artist}
+                                    <Link to={"/List/Artist/" + this.state.artist} className="link-white">
+                                        <small>Par : </small> {this.state.artist}
+                                    </Link>
+                                </span>
+                                <br/>
+                                <span>
+                                    <Link to={"/List/User/" + this.state.user} className="link-white">
+                                        <small>Traduit par : </small> {this.state.username}
+                                    </Link>
                                 </span>
                                 <br/><br/>
                                 <div className='btn-group'>

@@ -96,8 +96,10 @@ export class ListingTraduction extends Component {
             document.getElementById('app').style.display = 'initial';
         }
 
-        if (this.props.match.params.userId) {
-			this.getMyTraduction();
+        if (this.props.match.params.user) {
+            this.getTraductionByUserId(this.props.match.params.user);
+        } else if (this.props.match.params.artist) {
+            this.getTraductionByUserId(this.props.match.params.artist);
         } else {
 			this.getAllTraduction();
         }
@@ -116,9 +118,9 @@ export class ListingTraduction extends Component {
         });
     }
 
-    getMyTraduction() {
+    getTraductionByUserId(userId) {
         let self = this;
-        Meteor.call("traduction.getByUser", this.props.match.params.userId, (err, res) => {
+        Meteor.call("traduction.getByArtist", userId, (err, res) => {
             if (err){
                 alert("Erreur");
             } else {
@@ -126,6 +128,19 @@ export class ListingTraduction extends Component {
 					traductions: res
 				});
             } 
+        });
+    }
+
+    getTraductionByArtistName(userId) {
+        let self = this;
+        Meteor.call("traduction.getByUser", userId, (err, res) => {
+            if (err) {
+                alert("Erreur");
+            } else {
+                self.setState({
+                    traductions: res
+                });
+            }
         });
     }
 
@@ -156,11 +171,11 @@ export class ListingTraduction extends Component {
                     <div className="card-header text-white bg-dark">
                         <h2>Liste des musiques traduites</h2>
                         <div className="pull-right">
-							{this.props.match.params.userId
+							{this.props.match.params.user
                             ? <Link to={'/List/'} className='btn btn-success'>
                                 Toutes les traductions
                             </Link>
-                            : <Link to={'/List/' + Meteor.userId()} className='btn btn-success'>
+                            : <Link to={'/List/User/' + Meteor.userId()} className='btn btn-success'>
                                 Mes Traductions
                             </Link>
                             }

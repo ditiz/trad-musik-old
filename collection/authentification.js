@@ -2,17 +2,25 @@ import { Accounts } from 'meteor/accounts-base';
 
 import { Random }  from 'meteor/random';
 
+// Meteor.methods({
+// 	'user.getOne': (username, password) => {
+// 		if (Meteor.isServer) {
+// 			return Meteor.users.find(Meteor.userId())
+// 		}
+// 	}
+// });
+
 Meteor.methods({
-	'user.getOne': (username, password) => {
+	'user.getUsername': (userId) => {
 		if (Meteor.isServer) {
-			return Meteor.users.find(Meteor.userId())
+			let user = Meteor.users.findOne({ _id: userId });
+			return user.username
 		}
 	}
 });
 
 Meteor.methods({
 	'user.insertNew': (user) => {
-
 		if (user.mail == "") {
 			new Meteor.Error(200, "Aucune adresse mail donné");
 		} else if (user.password == "") {
