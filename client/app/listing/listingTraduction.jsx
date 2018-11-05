@@ -99,7 +99,7 @@ export class ListingTraduction extends Component {
         if (this.props.match.params.user) {
             this.getTraductionByUserId(this.props.match.params.user);
         } else if (this.props.match.params.artist) {
-            this.getTraductionByUserId(this.props.match.params.artist);
+            this.getTraductionByArtistName(this.props.match.params.artist);
         } else {
 			this.getAllTraduction();
         }
@@ -120,7 +120,7 @@ export class ListingTraduction extends Component {
 
     getTraductionByUserId(userId) {
         let self = this;
-        Meteor.call("traduction.getByArtist", userId, (err, res) => {
+        Meteor.call("traduction.getByUser", userId, (err, res) => {
             if (err){
                 alert("Erreur");
             } else {
@@ -131,9 +131,9 @@ export class ListingTraduction extends Component {
         });
     }
 
-    getTraductionByArtistName(userId) {
+    getTraductionByArtistName(artistName) {
         let self = this;
-        Meteor.call("traduction.getByUser", userId, (err, res) => {
+        Meteor.call("traduction.getByArtist", artistName, (err, res) => {
             if (err) {
                 alert("Erreur");
             } else {
