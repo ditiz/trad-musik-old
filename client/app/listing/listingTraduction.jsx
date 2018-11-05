@@ -96,18 +96,11 @@ export class ListingTraduction extends Component {
             document.getElementById('app').style.display = 'initial';
         }
 
-        Meteor.call("traduction.getAll", function (error, result) {
-            if (error) {
-                Bert.alert(
-                    "Erreur, veuillez contacter un administrateur", 
-                    "danger", 
-                    'growl-top-right'
-                );
-            } else {
-                var allTraduction = result;
-                this.setState({ traductions: allTraduction });
-            }
-        }.bind(this));
+        if (this.props.match.params.userId) {
+			this.getMyTraduction();
+        } else {
+			this.getAllTraduction();
+        }
     }
     
     search () {
@@ -118,7 +111,6 @@ export class ListingTraduction extends Component {
                 alert("Erreur");
             } else {
                 var allTraduction = result;
-
                 this.setState({ traductions: allTraduction });
             }
         });
@@ -126,14 +118,13 @@ export class ListingTraduction extends Component {
 
     getMyTraduction() {
         let self = this;
-        Meteor.call("traduction.getByUser", Meteor.userId(), (err, res) => {
+        Meteor.call("traduction.getByUser", this.props.match.params.userId, (err, res) => {
             if (err){
                 alert("Erreur");
             } else {
                 self.setState({
-                    traductions: res,
-                    onlyMine: true
-                })
+					traductions: res
+				});
             } 
         });
     }
@@ -148,23 +139,15 @@ export class ListingTraduction extends Component {
                     'growl-top-right'
                 );
             } else {
-                var allTraduction = result;
+				var allTraduction = result;
                 self.setState({ 
-                    traductions: allTraduction,
-                    onlyMine: false 
+                    traductions: allTraduction
                 });
             }
         });
     }
      
     render () {
-        const ButtonGetMyTraductions = (
-            <button className="btn btn-success" onClick={() => this.getMyTraduction()}>Mes traductions</button>
-        );
-
-        const ButtonGetAllTraductions = (
-            <button className="btn btn-success" onClick={() => this.getAllTraduction()}>Toutes les traductions</button>
-        );
 
         return (
             <div className="container-fluid col-12">
@@ -173,7 +156,14 @@ export class ListingTraduction extends Component {
                     <div className="card-header text-white bg-dark">
                         <h2>Liste des musiques traduites</h2>
                         <div className="pull-right">
-                            {this.state.onlyMine ? ButtonGetAllTraductions : ButtonGetMyTraductions}
+							{this.props.match.params.userId
+                            ? <Link to={'/List/'} className='btn btn-success'>
+                                Toutes les traductions
+                            </Link>
+                            : <Link to={'/List/' + Meteor.userId()} className='btn btn-success'>
+                                Mes Traductions
+                            </Link>
+                            }
                         </div>
                     </div>
 

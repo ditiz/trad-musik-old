@@ -94,14 +94,15 @@ function Actions() {
 
                     <div className='content col-10'>
                         <Route exact path="/" component={ListingTraduction}/>
-                        <Route path='/Dashbord' component={Dashbord}/>   
-                        <Route path="/List" component={ListingTraduction} />
-                        <Route path="/Create" component={CreateTraduction} />
-                        <Route path="/show/:traduction" component={DisplayTraduction}/>
-                        <Route path="/edit/:traduction" component={CreateTraduction}/>
-                        <Route path="/Login" component={Login}/>
-                        <Route path="/Signup" component={Signup}/>
-                        <Route path="/Logout" component={Logout}/>
+                        <Route exact path='/Dashbord' component={Dashbord}/>   
+                        <Route exact path="/List" component={ListingTraduction} />
+                        <Route exact path="/List/:userId" component={ListingTraduction} />
+                        <Route exact path="/Create" component={CreateTraduction} />
+                        <Route exact path="/show/:traduction" component={DisplayTraduction}/>
+                        <Route exact path="/edit/:traduction" component={CreateTraduction}/>
+                        <Route exact path="/Login" component={Login}/>
+                        <Route exact path="/Signup" component={Signup}/>
+                        <Route exact path="/Logout" component={Logout}/>
                     </div>
                 </div>
             </Router>
