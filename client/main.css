@@ -91,3 +91,15 @@ li {
     text-decoration: underline;
     color: white;
 }
+
+
+.notFound {
+    margin: auto;
+    text-align: center;
+    font-size: 2em;
+}
+
+.notFound h1 {
+    font-size: 5em;
+    color: #40739e;
+}

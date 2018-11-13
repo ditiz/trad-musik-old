@@ -3,17 +3,18 @@ import { render } from 'react-dom';
 import {
     BrowserRouter as Router,
     Route,
-    Link
+    Link,
+    Switch
 } from 'react-router-dom'
 
 import { ListingTraduction } from "./listing/listingTraduction";
 import { DisplayTraduction } from './listing/displayTraduction';
 import { CreateTraduction } from "./creation/createTraduction";
 import { Dashbord } from "./dashboard";
-// import { LoginPage } from "./auth/login"; 
 import { Signup } from "./auth/signupPage";
 import { Login } from "./auth/loginPage";
 import { Logout } from "./auth/logoutPage";
+import { PageNotFound } from "./pageNotFound";
 
 import "./css/slider";
 
@@ -93,17 +94,24 @@ function Actions() {
 
 
                     <div className='content col-10'>
-                        <Route exact path="/" component={ListingTraduction}/>
-                        <Route exact path='/Dashbord' component={Dashbord}/>   
-                        <Route exact path="/List" component={ListingTraduction} />
-                        <Route exact path="/List/User/:user" component={ListingTraduction} />
-                        <Route exact path="/List/Artist/:artist" component={ListingTraduction} />
-                        <Route exact path="/Create" component={CreateTraduction} />
-                        <Route exact path="/show/:traduction" component={DisplayTraduction}/>
-                        <Route exact path="/edit/:traduction" component={CreateTraduction}/>
-                        <Route exact path="/Login" component={Login}/>
-                        <Route exact path="/Signup" component={Signup}/>
-                        <Route exact path="/Logout" component={Logout}/>
+                        <Switch>
+                            <Route exact path="/" component={ListingTraduction} />
+                            <Route exact path='/Dashbord' component={Dashbord} />
+
+                            <Route exact path="/List" component={ListingTraduction} />
+                            <Route exact path="/List/User/:user" component={ListingTraduction} />
+
+                            <Route exact path="/List/Artist/:artist" component={ListingTraduction} />
+                            <Route exact path="/Create" component={CreateTraduction} />
+                            <Route exact path="/show/:traduction" component={DisplayTraduction} />
+                            <Route exact path="/edit/:traduction" component={CreateTraduction} />
+
+                            <Route exact path="/Login" component={Login} />
+                            <Route exact path="/Signup" component={Signup} />
+                            <Route exact path="/Logout" component={Logout} />
+
+                            <Route component={PageNotFound} />
+                        </Switch>
                     </div>
                 </div>
             </Router>
