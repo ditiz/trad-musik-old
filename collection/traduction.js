@@ -1,4 +1,15 @@
+import { SimpleSchema, attachSchema } from 'meteor/aldeed:simple-schema';
+
 Traduction = new Mongo.Collection("traduction");
+
+Traduction.traductionSchema = new SimpleSchema({
+    artist: { type: String },
+    title: { type: String },
+    link: { type: String },
+    origin: { type: String },
+    traduction: { type: String },
+    user: { type: String }
+});
 
 Meteor.methods({
     'traduction.getAll': function () {
@@ -238,4 +249,22 @@ Meteor.methods({
 
         return traductions;
     } 
+});
+
+
+Meteor.methods({
+    'traduction.importFromFile': function (file) {
+        if (Meteor.isServer) {
+            let data = JSON.parse(file);
+            
+            data.map((traduction) => {
+                if(traduction._id) {
+                    delete(traduction._id);
+                }
+
+                Traduction.insert(traduction);
+            });
+
+        }
+    }
 });

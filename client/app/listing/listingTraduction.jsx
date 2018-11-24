@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import {
     BrowserRouter as Router,
     Route,
-    Link
+    Link, NavLink
 } from 'react-router-dom'
 
 import { DisplayTraduction } from "./displayTraduction"
@@ -26,7 +26,7 @@ function ListAllTraduction(props) {
         });
 
         rendu = traductions.map(
-            (traduction, index) => (
+            (traduction) => (
                 <div className='col-12 col-lg-3 col-sm-5' key={traduction._id}> 
                     <div className="listing-item container-fluid alert alert-dark"
                         style={{color: "white !important"}}
@@ -37,7 +37,7 @@ function ListAllTraduction(props) {
                         </div>
                         <div>
                             <div className="col-9">
-                                <Link to={"/show/" + traduction._id}>
+                                <Link to={"/Show/" + traduction._id}>
                                     <div>
                                         <div>
                                             <h3>{traduction.title}</h3>
@@ -70,7 +70,9 @@ export class ListingTraduction extends Component {
         super(props);
 
         this.state = {
-            traductions: ""
+            traductions: "",
+            user: this.props.match.params.user,
+            artist: this.props.match.params.artist,
         } 
     }
 
@@ -91,11 +93,17 @@ export class ListingTraduction extends Component {
         
     }
 
-    componentWillMount() {
+    componentDidMount() {
         if (document.getElementById('app').style.display == 'none') {
             document.getElementById('app').style.display = 'initial';
         }
 
+        this.setState({
+            user: this.props.match.params.user,
+            artist: this.props.match.params.artist,
+        })
+
+        console.log(this.props.match.params.user);
         if (this.props.match.params.user) {
             this.getTraductionByUserId(this.props.match.params.user);
         } else if (this.props.match.params.artist) {
@@ -125,7 +133,8 @@ export class ListingTraduction extends Component {
                 alert("Erreur");
             } else {
                 self.setState({
-					traductions: res
+                    traductions: res,
+                    user: userId
 				});
             } 
         });
@@ -138,7 +147,8 @@ export class ListingTraduction extends Component {
                 alert("Erreur");
             } else {
                 self.setState({
-                    traductions: res
+                    traductions: res,
+                    artist: artistName
                 });
             }
         });
@@ -156,14 +166,15 @@ export class ListingTraduction extends Component {
             } else {
 				var allTraduction = result;
                 self.setState({ 
-                    traductions: allTraduction
+                    traductions: allTraduction,
+                    user: '',
+                    artist: ''
                 });
             }
         });
     }
      
     render () {
-
         return (
             <div className="container-fluid col-12">
                 <br/>
@@ -171,13 +182,13 @@ export class ListingTraduction extends Component {
                     <div className="card-header text-white bg-dark">
                         <h2>Liste des musiques traduites</h2>
                         <div className="pull-right">
-							{this.props.match.params.user
-                            ? <Link to={'/List/'} className='btn btn-success'>
+							{this.state.user == Meteor.userId()
+                                ? <div className='btn btn-success' onClick={() => this.getAllTraduction()}>
                                 Toutes les traductions
-                            </Link>
-                            : <Link to={'/List/User/' + Meteor.userId()} className='btn btn-success'>
+                            </div>
+                                : <div className='btn btn-success' onClick={() => this.getTraductionByUserId(Meteor.userId())}>
                                 Mes Traductions
-                            </Link>
+                            </div>
                             }
                         </div>
                     </div>

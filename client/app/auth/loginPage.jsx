@@ -3,7 +3,6 @@ import { render } from 'react-dom';
 import {
 	Link
 } from 'react-router-dom'
-import * as Cookies from "js-cookie";
 
 export class Login extends Component {
 
@@ -13,9 +12,9 @@ export class Login extends Component {
 		this.state = {
 			error: "",
 			info: "",
+			isAdmin: this.props.isAdmin,
 		}
 	}
-
 	
 	componentDidMount() {
 		let self = this;
@@ -23,8 +22,8 @@ export class Login extends Component {
 			Meteor.call('user.isUser', Meteor.userId(), (err, res) => {
 				if (res) {
 					self.setState({
-						info: 'Vous êtes connecté'
-					})
+						info: 'Vous êtes déjà connecté'
+					});
 				}
 			});
 		}
@@ -36,18 +35,23 @@ export class Login extends Component {
 		let email = document.getElementById('login-email').value;
 		let password = document.getElementById('login-password').value;
 
-
 		Meteor.loginWithPassword(email, password, (err) => {
 			if (err) {
 				Bert.alert(err.reason, 'danger', 'growl-top-right');
 			} else {
 				Meteor.call('user.isAdmin', Meteor.userId(), (err, res) => {
 					if (res) {
-						Bert.alert('Vous êtes connecter en tant qu\'admin', 'success', 'growl-top-right');
-						this.props.history.push('/')
+						Bert.alert(
+							'Vous êtes connecter en tant qu\'admin', 
+							'success', 
+							'growl-top-right');
+						this.props.history.push('/');
+						this.props.setAdmin(true);
 					} else {
 						Bert.alert('Vous êtes connecter', 'success', 'growl-top-right');
-						this.props.history.push('/')
+						this.props.history.push('/');
+						this.props.setAdmin(false);
+
 					}
 				})
 			}
@@ -90,9 +94,8 @@ export class Login extends Component {
 									<input type="submit"
 										id="login-button"
 										className="btn btn-primary btn-lg btn-block"
-										value="Login"/>
+										value="Login" />
 								</div>
-
 
 								{error.length > 0
 									? <div className="alert alert-danger">{error}</div>

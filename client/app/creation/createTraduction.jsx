@@ -45,7 +45,7 @@ export class CreateTraduction extends Component {
                             onMouseLeave={this.leave}
                             data-number={index}
                             id={"origin_" + index}
-                            key={index}>
+                            key={"origin_" + index}>
                             {text}
                         </div>
                     );
@@ -57,7 +57,7 @@ export class CreateTraduction extends Component {
                             onMouseLeave={this.leave}
                             data-number={index}
                             id={"traduction_" + index}
-                            key={index}>
+                            key={"traduction_" + index}>
                             <span>{text}</span>
                             <br/>
                         </div>
@@ -163,7 +163,7 @@ export class CreateTraduction extends Component {
                     } else {
                         Bert.alert('La traduction a été mise a jour', 'success', 'growl-top-right');
                         this.setState({
-                            redirect: '/show/' + this.state._id
+                            redirect: '/Show/' + this.state._id
                         })
                     }
                 });

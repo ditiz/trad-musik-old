@@ -77,9 +77,9 @@ export class DisplayTraduction extends Component {
                     <p onMouseOver={this.hoverOrigin} 
                     onMouseLeave={this.leave}
                     data-number={index}
-                    id={"origin_"+index} 
+                    id={"origin_" + index} 
                     style={{ padding: "2px"}}
-                    key={index}>
+                    key={"origin_" + index}>
                         {text}
                     </p>
                 );
@@ -92,7 +92,7 @@ export class DisplayTraduction extends Component {
                     data-number={index}
                     id={"traduction_" + index} 
                     style={{ padding: "2px" }}
-                    key={index}>
+                    key={"traduction_" + index}>
                         {text}
                     </p>
                 );
