@@ -85,7 +85,10 @@ export class AdminDashbord extends Component {
 								Télécharger toutes les traductions
 							</button>
 
-							<button className="btn btn-secondary" onClick={() => this.importFile.current.click()}>
+							<button 
+								className="btn btn-secondary" 
+								onClick={() => this.importFile.current.click()}
+							>
 								Importer des traductions
 								<input
 									ref={this.importFile}

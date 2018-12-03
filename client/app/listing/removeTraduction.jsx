@@ -92,7 +92,7 @@ export class RemoveTraduction extends Component {
 		}
 
 		return (
-			<div className="btn-group" style={{width: "300px"}}>
+			<div className="btn-group" >
 				{ this.state.displayEdit && 
 					<div className="col-2 pull-right">
 						<Link className='btn btn-secondary' to={"/edit/" + this.props.traduction_id}>

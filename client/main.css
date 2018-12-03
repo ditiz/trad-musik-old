@@ -103,3 +103,19 @@ li {
     font-size: 5em;
     color: #40739e;
 }
+
+.listingStyle-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.listingStyle-right > * {
+    margin: 5px 5px;
+    transform: 50%;
+}
+
+.listingStyle-remove > * > *{
+    /* padding: 10px 15px; */
+    font-size: 30px; 
+}

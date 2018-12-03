@@ -7,62 +7,7 @@ import {
 } from 'react-router-dom'
 
 import { DisplayTraduction } from "./displayTraduction"
-import { DisplayImage } from './displayImage'; 
-import { RemoveTraduction } from './removeTraduction';
-
-function ListAllTraduction(props) {
-    traductions = props.traductions;
-
-    var rendu = <div></div>;
-
-    if (traductions){
-        traductions.forEach(function (traduction) {
-            if (traduction.title.length > 30){
-                traduction.title = traduction.title.slice(0, 30) + "...";
-            }
-            if (traduction.artist.length > 30) {
-                traduction.artist = traduction.artist.slice(0, 30) + "...";
-            }
-        });
-
-        rendu = traductions.map(
-            (traduction) => (
-                <div className='col-12 col-lg-3 col-sm-5' key={traduction._id}> 
-                    <div className="listing-item container-fluid alert alert-dark"
-                        style={{color: "white !important"}}
-                        id={traduction._id}>
-                        <div className="col-2 pull-right p-1">
-                            <RemoveTraduction traduction_id={traduction._id}
-                                useIn='listingTraduction'/>
-                        </div>
-                        <div>
-                            <div className="col-9">
-                                <Link to={"/Show/" + traduction._id}>
-                                    <div>
-                                        <div>
-                                            <h3>{traduction.title}</h3>
-                                            <small>
-                                                <strong>Artiste : </strong> 
-                                                {traduction.artist}
-                                            </small>
-                                        </div>
-                                        <br />
-                                    </div>
-                                </Link>
-                            </div>
-                            
-                        </div>
-                        <div className="listing-item-image">
-                            <DisplayImage link={traduction.link} height="auto" width="auto" />
-                        </div>
-                    </div>
-               </div>
-            )
-        )
-    }
-
-    return rendu;
-}
+import { ListAllTraduction } from './listAllTraduction'
 
 export class ListingTraduction extends Component {
     
@@ -73,11 +18,12 @@ export class ListingTraduction extends Component {
             traductions: "",
             user: this.props.match.params.user,
             artist: this.props.match.params.artist,
-        } 
+            listingStyle: "block"
+        };
     }
 
     DisplayTraduction(e) {
-        var liWithKey = e.target;
+        let liWithKey = e.target;
         while (!liWithKey.id){
             liWithKey = liWithKey.parentNode;
         }
@@ -113,7 +59,7 @@ export class ListingTraduction extends Component {
         }
     }
     
-    search () {
+    search() {
         let search = document.getElementById("bar-search").value;
         
         Meteor.call("traduction.searchTraduction", search, (error, result) => {
@@ -173,6 +119,18 @@ export class ListingTraduction extends Component {
             }
         });
     }
+
+    changeStyle() {
+       if (this.state.listingStyle == "block") {
+           this.setState({
+               listingStyle: "list"
+           });
+       } else {
+           this.setState({
+               listingStyle: "block"
+           });
+       }
+    } 
      
     render () {
         return (
@@ -181,12 +139,28 @@ export class ListingTraduction extends Component {
                 <div className="card">
                     <div className="card-header text-white bg-dark">
                         <h2>Liste des musiques traduites</h2>
-                        <div className="pull-right">
+                        <div className="pull-right btn-group">
+                            <button 
+                                className="btn btn-primary"
+                                onClick={() => this.changeStyle()}>
+                                {this.state.listingStyle == "block" 
+                                ? "Affichage liste" 
+                                : "Affichage block"
+                                }
+                            </button>
 							{this.state.user == Meteor.userId()
-                                ? <div className='btn btn-success' onClick={() => this.getAllTraduction()}>
+                                ? 
+                            <div 
+                                className='btn btn-success' 
+                                onClick={() => this.getAllTraduction()}
+                            >
                                 Toutes les traductions
                             </div>
-                                : <div className='btn btn-success' onClick={() => this.getTraductionByUserId(Meteor.userId())}>
+                                : 
+                            <div 
+                                className='btn btn-success' 
+                                onClick={() => this.getTraductionByUserId(Meteor.userId())}
+                            >
                                 Mes Traductions
                             </div>
                             }
@@ -194,7 +168,7 @@ export class ListingTraduction extends Component {
                     </div>
 
                     <div className="card-body form-group">
-                        <div className="col-12">
+                        <div className="container-fluid">
                             <div className="row input-group">
                                 <input type="text"
                                     id="bar-search" 
@@ -212,7 +186,8 @@ export class ListingTraduction extends Component {
                         </div>
 
                         <div className="row">
-                            <ListAllTraduction 
+                            <ListAllTraduction
+                                listingStyle={this.state.listingStyle}
                                 displayTraduction={this.DisplayTraduction.bind(this)}
                                 traductions={this.state.traductions} />
                         </div>
