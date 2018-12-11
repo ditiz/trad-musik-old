@@ -94,11 +94,9 @@ export class RemoveTraduction extends Component {
 		return (
 			<div className="btn-group" >
 				{ this.state.displayEdit && 
-					<div className="col-2 pull-right">
-						<Link className='btn btn-secondary' to={"/edit/" + this.props.traduction_id}>
-							&#9998;
-						</Link> 
-					</div>
+					<Link className='btn btn-secondary' to={"/edit/" + this.props.traduction_id}>
+						&#9998;
+					</Link> 	
 				}
 				{ this.state.displayRemove &&
 					<div className='btn btn-danger' style={{ cursor: "pointer" }}

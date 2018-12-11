@@ -6,8 +6,9 @@ import {
     Link, NavLink
 } from 'react-router-dom'
 
-import { DisplayTraduction } from "./displayTraduction"
-import { ListAllTraduction } from './listAllTraduction'
+import { DisplayTraduction } from "./displayTraduction";
+import { ListAllTraduction } from './listAllTraduction';
+import { ButtonFilterTraduction } from './buttonFilterTraduction';
 
 export class ListingTraduction extends Component {
     
@@ -49,7 +50,6 @@ export class ListingTraduction extends Component {
             artist: this.props.match.params.artist,
         })
 
-        console.log(this.props.match.params.user);
         if (this.props.match.params.user) {
             this.getTraductionByUserId(this.props.match.params.user);
         } else if (this.props.match.params.artist) {
@@ -73,6 +73,7 @@ export class ListingTraduction extends Component {
     }
 
     getTraductionByUserId(userId) {
+        console.log(userId)
         let self = this;
         Meteor.call("traduction.getByUser", userId, (err, res) => {
             if (err){
@@ -139,32 +140,15 @@ export class ListingTraduction extends Component {
                 <div className="card">
                     <div className="card-header text-white bg-dark">
                         <h2>Liste des musiques traduites</h2>
-                        <div className="pull-right btn-group">
-                            <button 
-                                className="btn btn-primary"
-                                onClick={() => this.changeStyle()}>
-                                {this.state.listingStyle == "block" 
-                                ? "Affichage liste" 
-                                : "Affichage block"
-                                }
-                            </button>
-							{this.state.user == Meteor.userId()
-                                ? 
-                            <div 
-                                className='btn btn-success' 
-                                onClick={() => this.getAllTraduction()}
-                            >
-                                Toutes les traductions
-                            </div>
-                                : 
-                            <div 
-                                className='btn btn-success' 
-                                onClick={() => this.getTraductionByUserId(Meteor.userId())}
-                            >
-                                Mes Traductions
-                            </div>
-                            }
-                        </div>
+                        <ButtonFilterTraduction 
+                            display={this.state.listingStyle}
+                            user={this.state.user}
+                            artist={this.state.artist}
+                            routeParams={this.props.match.params}
+                            changeStyle={() => this.changeStyle()}
+                            getAllTraduction={() => this.getAllTraduction()}
+                            getTraductionByUserId={() => this.getTraductionByUserId(Meteor.userId())}
+                        />
                     </div>
 
                     <div className="card-body form-group">
