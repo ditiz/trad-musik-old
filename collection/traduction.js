@@ -268,3 +268,67 @@ Meteor.methods({
         }
     }
 });
+
+Meteor.methods({
+    'traduction.factoryTraduction': function () {
+        if (Meteor.isServer) {
+
+            let title = "Test " + (new Date().getTime() / 1000 | 0).toString(16);;
+
+            let origin = `
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Fusce vel dolor nibh. Donec id quam tortor. 
+                Phasellus at lorem in velit lobortis dapibus sed vitae nisi. 
+                Suspendisse potenti. 
+                Praesent euismod nunc sed metus sagittis, ut fringilla eros lobortis. 
+                Phasellus in metus dui. 
+                Vivamus congue dolor mi, nec tempor tortor tempor nec. 
+                Maecenas sit amet finibus neque. Sed et facilisis lacus. 
+                Class aptent taciti sociosqu ad litora torquent per conubia nostra, 
+                per inceptos himenaeos. 
+                Vestibulum ut consequat arcu.
+                Etiam interdum maximus sollicitudin.
+                Mauris mattis tortor non eros dictum pharetra. 
+                Nulla ipsum nulla, accumsan vitae varius in, posuere eget libero. 
+                Morbi ipsum quam, varius a felis sit amet, blandit tincidunt mi. 
+                Phasellus dolor sem, mollis in augue a, pellentesque ultricies massa. 
+                Donec sapien ipsum, convallis ac pharetra in, mollis eget felis. 
+                Donec molestie, enim nec porta gravida, arcu ligula bibendum erat, 
+                id sodales ante felis eget nisl
+            `;
+
+            let traduction = `
+                Nunc in mollis nibh, a elementum metus.
+                Nulla ullamcorper dolor at massa fermentum vehicula.
+                Nunc ullamcorper cursus tortor et finibus.
+                Nam nec augue magna.
+                Cras id sem dui.
+                Pellentesque nec pharetra mi, egestas porta lorem.
+                Pellentesque eget sem vitae risus mollis luctus.
+                Nam pharetra mi quis molestie egestas.
+                Etiam vitae ligula magna.Sed id pellentesque leo.
+                Etiam condimentum maximus suscipit.
+                Cras a turpis gravida nibh vestibulum ultricies.
+                Sed scelerisque tempus arcu, in pretium elit cursus et.Aenean tincidunt arcu non ante rutrum tristique.
+                Aenean pretium faucibus elementum.
+                Sed malesuada, urna ut finibus pulvinar, urna tellus dapibus libero, vel sagittis ex risus eget velit.
+                In hac habitasse platea dictumst.
+                Aliquam porta volutpat auctor.
+                Etiam interdum nisl est, eu semper arcu eleifend vel.
+                Vestibulum feugiat tortor ligula, at ultrices sapien malesuada quis.
+                Vestibulum non dui ac sem lacinia hendrerit.
+            `;
+
+            Traduction.insert({
+                title: title,
+                artist: 'admin',
+                origin: origin,
+                traduction: traduction,
+                link: 'https://insurancemarket.ng/images/thumbnails/649/220/detailed/3/26e178f.png',
+                user: Meteor.userId()
+            });
+
+            return title;
+        } 
+    } 
+});

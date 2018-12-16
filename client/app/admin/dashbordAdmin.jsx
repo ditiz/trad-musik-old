@@ -52,7 +52,18 @@ export class AdminDashbord extends Component {
 				}
 			})
 		}
-	} 
+	};
+
+	createTraduction() {
+		Meteor.call('traduction.factoryTraduction', (err, res) => {
+			if (!err) {
+				Bert.alert(
+					'Traduction ' + res + ' créer',
+					'success',
+					'growl-top-right');
+			}
+		})
+	}
 
 	render() {
 		return (
@@ -97,6 +108,13 @@ export class AdminDashbord extends Component {
 									style={{ display: "none" }}
 									onChange={() => this.importTraduction()}
 								/>
+							</button>
+
+							<button 
+								className="btn btn-info"
+								onClick={() => this.createTraduction()}
+							>
+								Créer une traduction
 							</button>
 						</div>
 					</div>

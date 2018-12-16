@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import {
-	BrowserRouter as Router,
-	Route,
+	Redirect,
 	Link
 } from 'react-router-dom'
 
@@ -11,7 +10,8 @@ export class Signup extends Component {
 		super(props);
 
 		this.state = {
-			error: ""
+			error: "",
+			redirect: false
 		}
 	}
 
@@ -33,20 +33,28 @@ export class Signup extends Component {
 				this.setState({
 					error: err.reason
 				})
-			}else{
-				this.setState({ error: "" });
+			}else{				
+				this.setState({ 
+					error: "",
+					redirect: true
+				});
+
 				Bert.alert(
 					"Votre compte a été crééer",
 					"success",
 					'growl-top-right'
 				);
-				document.location.href = '/Login';
 			}
 		})
 	}
 
 	render() {
 		const error = this.state.error;
+
+		if (this.state.redirect) {
+			return <Redirect to="Login"/>;
+		}
+
 		return (
 			<div className="container-fluid col-12">
 				<br />

@@ -21,6 +21,8 @@ export class ListingTraduction extends Component {
             artist: this.props.match.params.artist,
             listingStyle: "block"
         };
+
+        this.messageForNotSecure = React.createRef();
     }
 
     DisplayTraduction(e) {
@@ -131,6 +133,10 @@ export class ListingTraduction extends Component {
                listingStyle: "block"
            });
        }
+    }
+
+    displayMessageForNotSecure = () => {
+        console.log(this.messageForNotSecure.current.classList.remove('d-none'));
     } 
      
     render () {
@@ -169,14 +175,21 @@ export class ListingTraduction extends Component {
                             <hr/>
                         </div>
 
-                        <div className="row">
+                        <div className="row" onLoad={() => this.displayMessageForNotSecure()}>
                             <ListAllTraduction
                                 listingStyle={this.state.listingStyle}
                                 displayTraduction={this.DisplayTraduction.bind(this)}
-                                traductions={this.state.traductions} />
+                                traductions={this.state.traductions} 
+                            />
                         </div>
                     </div>
-        
+                </div>
+
+                <br/>
+
+                <div ref={this.messageForNotSecure} className='d-none alert alert-info text-center'>
+                    Le navigateur considère le site comme non sécurisé a cause 
+                    des images qui ne sont pas en https
                 </div>
             </div>
         )
