@@ -27,14 +27,15 @@ Meteor.methods({
     'traduction.insertNew': function (traduction) {
         if (Meteor.isServer) {
             if (traduction.title == "") {
-                new Meteor.Error(200, "Titre vide");
+                throw new Meteor.Error(200, "Titre vide");
             } else if (traduction.origin == "") {
-                new Meteor.Error(200, "Text original vide");
-            } else if (traduction.traduction) {
-                new Meteor.Error(200, "Aucune traduction donné");
+                throw new Meteor.Error(200, "Text original vide");
+            } else if (traduction.traduction == "") {
+                throw new Meteor.Error(200, "Aucune traduction donné");
             } else if (traduction.user == "") {
-                new Meteor.Error(200, "Vous n'êtes pas connecté");
+                throw new Meteor.Error(200, "Vous n'êtes pas connecté");
             }
+
                         
             let user = Meteor.users.findOne({ _id: traduction.user });
             let traductionInDB = Traduction.findOne({ 
@@ -78,7 +79,7 @@ Meteor.methods({
                 
                 return { status: 'created' };
             } else {
-                new Meteor.Error(200, "Vous n'êtes pas connecté");
+                throw new Meteor.Error(200, "Vous n'êtes pas connecté");
             }
         }
     }
@@ -87,13 +88,13 @@ Meteor.methods({
 Meteor.methods({
     'traduction.updateOne': function (traduction) {
         if (traduction.title == "") {
-            new Meteor.Error(200, "Titre vide");
+            throw new Meteor.Error(200, "Titre vide");
         } else if (traduction.origin == "") {
-            new Meteor.Error(200, "Text original vide");
+            throw new Meteor.Error(200, "Text original vide");
         } else if (traduction.traduction) {
-            new Meteor.Error(200, "Aucune traduction donné");
+            throw new Meteor.Error(200, "Aucune traduction donné");
         } else if (!Traduction.findOne({ _id: traduction._id })){
-            new Meteor.Error(200, "La traduction a mettre a jour n'a pas été trouvé");
+            throw new Meteor.Error(200, "La traduction a mettre a jour n'a pas été trouvé");
         }
 
         let user = Meteor.users.findOne({ _id: traduction.user });
@@ -206,13 +207,13 @@ Meteor.methods({
         }
 
         if (typeof user === undefined) {
-            new Meteor.Error(200, "Vous n'êtes pas connecté");
+            throw new Meteor.Error(200, "Vous n'êtes pas connecté");
         } else {
             if (user.admin == 1 || traduction.user == user._id) {
                 Traduction.remove({ _id: traduction_id})
                 return true;
             } else {
-                new Meteor.Error(200, "Vous n'avez pas les droits pour réaliser cette action");
+                throw new Meteor.Error(200, "Vous n'avez pas les droits pour réaliser cette action");
                 return false;
             }
         }

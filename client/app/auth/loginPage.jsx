@@ -56,6 +56,7 @@ export class Login extends Component {
 				})
 			}
 		});
+
 	}
 
 	render() {
@@ -66,7 +67,7 @@ export class Login extends Component {
 			<div className="container-fluid col-12">
 				<br/>
 				<div className="col-3 container">
-
+				
 					<div className='card card-header col-12 bg-dark text-white'>
 						<h2>Connexion</h2>
 					</div>
@@ -114,7 +115,6 @@ export class Login extends Component {
 							</div>
 						</form>
 					</div>
-
 				</div>
 			</div>
 		);

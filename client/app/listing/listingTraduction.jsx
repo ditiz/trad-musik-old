@@ -75,7 +75,6 @@ export class ListingTraduction extends Component {
     }
 
     getTraductionByUserId(userId) {
-        console.log(userId)
         let self = this;
         Meteor.call("traduction.getByUser", userId, (err, res) => {
             if (err){
@@ -136,12 +135,12 @@ export class ListingTraduction extends Component {
     }
 
     displayMessageForNotSecure = () => {
-        console.log(this.messageForNotSecure.current.classList.remove('d-none'));
+        this.messageForNotSecure.current.classList.remove('d-none');
     } 
      
     render () {
         return (
-            <div className="container-fluid col-12">
+            <div className="container-fluid col-12" onLoad={() => this.displayMessageForNotSecure()}>
                 <br/>
                 <div className="card">
                     <div className="card-header text-white bg-dark">
@@ -175,7 +174,7 @@ export class ListingTraduction extends Component {
                             <hr/>
                         </div>
 
-                        <div className="row" onLoad={() => this.displayMessageForNotSecure()}>
+                        <div className="row">
                             <ListAllTraduction
                                 listingStyle={this.state.listingStyle}
                                 displayTraduction={this.DisplayTraduction.bind(this)}
@@ -188,7 +187,7 @@ export class ListingTraduction extends Component {
                 <br/>
 
                 <div ref={this.messageForNotSecure} className='d-none alert alert-info text-center'>
-                    Le navigateur considère le site comme non sécurisé a cause 
+                    Le navigateur peut considérer le site comme non sécurisé a cause 
                     des images qui ne sont pas en https
                 </div>
             </div>

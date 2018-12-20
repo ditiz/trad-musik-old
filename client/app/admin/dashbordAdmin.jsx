@@ -86,7 +86,7 @@ export class AdminDashbord extends Component {
 				<br/>
 
 				<div className="card">
-					<div className="card-header">
+					<div className="card-header bg-dark text-white">
 						Récupération de données
 					</div>
 

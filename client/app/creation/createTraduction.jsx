@@ -147,7 +147,11 @@ export class CreateTraduction extends Component {
 
                 Meteor.call('traduction.insertNew', this.state, function (err, result) {
                     if (err) {
-                        alert("Erreur");
+                        Bert.alert(
+                           err.reason,
+                            "danger",
+                            'growl-top-right'
+                        );
                     } else if (result.status == 'created'){
                         Bert.alert('La traduction a été enregisté', 'success', 'growl-top-right');
                     } else if (result.status == 'updated') {

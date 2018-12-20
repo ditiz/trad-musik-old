@@ -29,11 +29,12 @@ export class Signup extends Component {
 		};
 
 		Meteor.call("user.insertNew", newUser, (err, res) => {
+			console.log(err, res)
 			if (err){
 				this.setState({
 					error: err.reason
 				})
-			}else{				
+			} else {				
 				this.setState({ 
 					error: "",
 					redirect: true

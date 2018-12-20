@@ -35,20 +35,6 @@ export class Menu extends Component {
         });
     }
 
-    static getDerivedStateFromProps(props, state) {
-        if (Meteor.userId() != state.userId) {
-            Meteor.call('user.isAdmin', Meteor.userId(), (err, res) => {
-                if (err) {
-                    alert("error");
-                } else {
-                    this.setState({ isAdmin: res, userId: Meteor.userId() });
-                }
-            });
-        }
-
-        return null;
-    }
-
     render() {
         return (
            <div>
