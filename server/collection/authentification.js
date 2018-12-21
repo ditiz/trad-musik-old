@@ -88,12 +88,13 @@ Accounts.validateLoginAttempt((options) => {
 	// Check if email is verified
 	let user = options.user;
 
-	for (let email in user.email ) {
+	for (let email of user.emails ) {
 		if (email.verified === true) {
 			return true;
 		}
 	}
 
+	// Throw error message if email isn't verified
 	let errorMessage = "Vous devez vérifier votre email avant de vous connecter";
 	throw new Meteor.Error(200, errorMessage);
 });

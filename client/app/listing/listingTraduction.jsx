@@ -76,16 +76,33 @@ export class ListingTraduction extends Component {
 
     getTraductionByUserId(userId) {
         let self = this;
-        Meteor.call("traduction.getByUser", userId, (err, res) => {
-            if (err){
-                alert("Erreur");
-            } else {
-                self.setState({
-                    traductions: res,
-                    user: userId
-				});
-            } 
-        });
+        console.log(Meteor.userId())
+        if (Meteor.userId()) {
+            Meteor.call("traduction.getByUser", userId, (err, res) => {
+                if (err) {
+                    alert("Erreur");
+                } else {
+                    console.log(res.length > 0)
+                    if (res.length == 0) {
+                        Bert.alert(
+                            "Vous n'avez pas de traduction pas l'instant",
+                            "info",
+                            'growl-top-right'
+                        );
+                    }
+                    self.setState({
+                        traductions: res,
+                        user: userId
+                    });
+                }
+            });
+        } else {
+            Bert.alert(
+                "Vous devez vous connectez pour voir vos traductions",
+                "warning",
+                'growl-top-right'
+            );
+        }
     }
 
     getTraductionByArtistName(artistName) {
