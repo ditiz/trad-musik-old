@@ -8,7 +8,9 @@ import { AdminDashbord } from './admin/dashbordAdmin';
 import { Signup } from "./auth/signupPage";
 import { Login } from "./auth/loginPage";
 import { Logout } from "./auth/logoutPage";
+import { VerifiedEmail } from "./auth/verifiedEmail"
 import { PageNotFound } from "./pageNotFound";
+import { SignupSuccessPage } from './auth/signupSuccessPage'
 import {
 	Route,
 	Switch,
@@ -16,7 +18,6 @@ import {
 } from 'react-router-dom';
 import { UserContext } from "./userContext";
 
-const Renderer = withRouter(props => props.render());
 
 export class Routing extends Component {
 
@@ -24,17 +25,23 @@ export class Routing extends Component {
 		super(props);
 	}
 
-
-
 	render () {
 		return (
 			<Switch>
 				<Route exact path="/" component={ListingTraduction} />
 				<Route exact path='/Dashbord' component={Dashbord} />
 
-				<Route exact path="/List" render={props => <ListingTraduction {...props} />}/>
-				<Route exact path="/List/User/:user" render={props => <ListingTraduction {...props} />}/>
-				<Route exact path="/List/Artist/:artist" render={props => <ListingTraduction {...props} />}/>
+				<Route exact path="/List" render={props => <ListingTraduction {...props} />} />
+				<Route 
+					exact 
+					path="/List/User/:user" 
+					render={props => <ListingTraduction {...props} />}
+				/>
+				<Route 
+					exact 
+					path="/List/Artist/:artist" 
+					render={props => <ListingTraduction {...props} />}
+				/>
 
 				<Route exact path="/Create" component={CreateTraduction} />
 				<Route exact path="/Show/:traduction" component={DisplayTraduction} />
@@ -42,9 +49,9 @@ export class Routing extends Component {
 
 				{this.props.isAdmin && 
 					<Route
-						exact
-						path="/Admin"
-						component={AdminDashbord}
+					exact
+					path="/Admin"
+					component={AdminDashbord}
 					/>
 				}
 
@@ -53,8 +60,8 @@ export class Routing extends Component {
 					path="/Login"
 					component={(props) => 
 						<Login {...props} 
-							isAdmin={this.props.isAdmin} 
-							setAdmin={this.props.setAdmin}
+						isAdmin={this.props.isAdmin} 
+						setAdmin={this.props.setAdmin}
 						/>
 					}
 				/>
@@ -62,6 +69,9 @@ export class Routing extends Component {
 					path="/Logout"
 					component={Logout}
 				/>
+
+				<Route exact path="/verify-email" component={VerifiedEmail}/>
+				<Route exact path="/Signup-success/:userId" component={SignupSuccessPage}/>
 
 				<Route component={PageNotFound}/>
 			</Switch>

@@ -414,7 +414,6 @@ export class CreateTraduction extends Component {
 
                                 <IsNotChrome/>
 
-
                                 <div className='container row'>
                                     <div className='form-group col-6'>
                                         <label htmlFor="origin">Texte Original</label>
@@ -460,7 +459,6 @@ export class CreateTraduction extends Component {
                                         </div>
                                     </div>
                                 </div>
-
 
                                 <br />
 

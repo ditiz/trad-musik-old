@@ -92,16 +92,19 @@ li {
     color: white;
 }
 
-
-.notFound {
+.infoPage {
     margin: auto;
     text-align: center;
     font-size: 2em;
 }
 
-.notFound h1 {
-    font-size: 5em;
+.infoPage h1 {
+    font-size: 2em;
     color: #40739e;
+}
+
+.notFound h1{
+    font-size: 5em;
 }
 
 .listingStyle-right {

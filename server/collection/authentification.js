@@ -27,6 +27,7 @@ Meteor.methods({
 
 Meteor.methods({
 	'user.insertNew': (user) => {
+		// Check user params
 		if (user.mail == "") {
 			throw new Meteor.Error(200, "Aucune adresse mail donné");
 		} else if (user.password == "") {
@@ -38,15 +39,20 @@ Meteor.methods({
 		//Test if the mail already exist
 		checkUserExist(user);
 		
+		// User params
 		newUser = {
 			email: 		user.mail,
 			username: 	user.username,
 			password: 	user.password
 		}
 		
-		Accounts.createUser(newUser);
+		// Create user
+		let userId = Accounts.createUser(newUser);
 
-		return true;
+		// Verify mail adress
+		Accounts.sendVerificationEmail(userId);		
+
+		return userId;
 	}
 });
 
@@ -78,23 +84,32 @@ Meteor.methods({
 	}
 });
 
-Accounts.validateLoginAttempt((options) => {
+Meteor.methods({
+	'user.verificationEmail': (token) => {
+		let user = Meteor.users.findOne({ "services.email.verificationTokens.token": token });
 
-	// Check if user use correct email and password 
-	if (!options.allowed) {
-		return false;
-	}
+		if (user !== undefined) {
+			// update only the first mail, use $[] and arrayFilter mangodb don't work 
+			Meteor.users.update(
+				{ _id: user._id },
+				{ $set : { "emails.0.verified": true } }
+			);
 
-	// Check if email is verified
-	let user = options.user;
-
-	for (let email of user.emails ) {
-		if (email.verified === true) {
-			return true;
+			if (user.emails[0].verified === false) {
+				return true;
+			} else if (user.emails[0].verified == true) {
+				return "already verified";
+			}
 		}
-	}
 
-	// Throw error message if email isn't verified
-	let errorMessage = "Vous devez vérifier votre email avant de vous connecter";
-	throw new Meteor.Error(200, errorMessage);
+		return false;
+		
+	}
 });
+
+Meteor.methods({
+	'user.sendVerificationEmail': (userId) => {
+		Accounts.sendVerificationEmail(userId);
+	}
+});
+

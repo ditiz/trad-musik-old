@@ -11,7 +11,8 @@ export class Signup extends Component {
 
 		this.state = {
 			error: "",
-			redirect: false
+			redirect: false,
+			userId: null
 		}
 	}
 
@@ -32,18 +33,13 @@ export class Signup extends Component {
 			if (err){
 				this.setState({
 					error: err.reason
-				})
+				});
 			} else {				
 				this.setState({ 
 					error: "",
-					redirect: true
+					redirect: true,
+					userId: res
 				});
-
-				Bert.alert(
-					"Votre compte a été crééer",
-					"success",
-					'growl-top-right'
-				);
 			}
 		})
 	}
@@ -52,7 +48,7 @@ export class Signup extends Component {
 		const error = this.state.error;
 
 		if (this.state.redirect) {
-			return <Redirect to="Login"/>;
+			return <Redirect to={"Signup-success/" + this.state.userId}/>;
 		}
 
 		return (
@@ -72,24 +68,27 @@ export class Signup extends Component {
 
 							<div>
 								<div className="form-group">
-									<input type="text"
+									<input type="email"
 										id="login-email"
 										className="form-control input-lg"
-										placeholder="Adresse mail"/>
+										placeholder="Adresse mail"
+										required/>
 								</div>
 
 								<div className="form-group">
 									<input type="text"
 										id="login-username"
 										className="form-control input-lg"
-										placeholder="Nom d'utilisateur"/>
+										placeholder="Nom d'utilisateur"
+										required/>
 								</div>
 
 								<div className="form-group">
 									<input type="password"
 										id="login-password"
 										className="form-control input-lg"
-										placeholder="Mot de passe"/>
+										placeholder="Mot de passe"
+										required/>
 								</div>
 
 								<div className="form-group text-center">

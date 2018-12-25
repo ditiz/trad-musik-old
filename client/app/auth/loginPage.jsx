@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import {
-	Link
+	Link,
+	Redirect
 } from 'react-router-dom'
 
 export class Login extends Component {
@@ -13,6 +14,7 @@ export class Login extends Component {
 			error: "",
 			info: "",
 			isAdmin: this.props.isAdmin,
+			redirect: false
 		}
 	}
 	
@@ -35,9 +37,17 @@ export class Login extends Component {
 		let email = document.getElementById('login-email').value;
 		let password = document.getElementById('login-password').value;
 
-		Meteor.loginWithPassword(email, password, (err) => {
+		Meteor.loginWithPassword(email, password, (err, res) => {
 			if (err) {
-				Bert.alert(err.reason, 'danger', 'growl-top-right');
+				if (err.reason == "emailNotVerify") {
+					let message = "Vous devez vérifier votre email avant de vous connecter";
+					Bert.alert(message, 'danger', 'growl-top-right');
+					this.setState({
+						redirect: "/Signup-success/" + err.details
+					});
+				} else {
+					Bert.alert(err.reason, 'danger', 'growl-top-right');
+				}
 			} else {
 				Meteor.call('user.isAdmin', Meteor.userId(), (err, res) => {
 					if (res) {
@@ -45,11 +55,11 @@ export class Login extends Component {
 							'Vous êtes connecter en tant qu\'admin', 
 							'success', 
 							'growl-top-right');
-						this.props.history.push('/');
+						this.setState({redirect: '/List'})
 						this.props.setAdmin(true);
 					} else {
 						Bert.alert('Vous êtes connecter', 'success', 'growl-top-right');
-						this.props.history.push('/');
+						this.setState({redirect: '/List'})
 						this.props.setAdmin(false);
 
 					}
@@ -61,7 +71,11 @@ export class Login extends Component {
 
 	render() {
 		const error = this.state.error;
-		const info 	= this.state.info; 
+		const info 	= this.state.info;
+
+		if (this.state.redirect) {
+			return <Redirect to={this.state.redirect} />	
+		}
 
 		return(
 			<div className="container-fluid col-12">
