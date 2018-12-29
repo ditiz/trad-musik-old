@@ -10,7 +10,9 @@ import { Login } from "./auth/loginPage";
 import { Logout } from "./auth/logoutPage";
 import { VerifiedEmail } from "./auth/verifiedEmail"
 import { PageNotFound } from "./pageNotFound";
-import { SignupSuccessPage } from './auth/signupSuccessPage'
+import { SignupSuccessPage } from './auth/signupSuccessPage';
+import { ForgotPassword } from './auth/forgotPassword';
+import { ResetPassword } from './auth/resetPassword';
 import {
 	Route,
 	Switch,
@@ -72,6 +74,8 @@ export class Routing extends Component {
 
 				<Route exact path="/verify-email" component={VerifiedEmail}/>
 				<Route exact path="/Signup-success/:userId" component={SignupSuccessPage}/>
+				<Route exact path="/ForgotPassword" component={ForgotPassword}/>
+				<Route exact path="/Reset-password/:token" component={ResetPassword}/>
 
 				<Route component={PageNotFound}/>
 			</Switch>

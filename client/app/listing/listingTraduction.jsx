@@ -157,7 +157,6 @@ export class ListingTraduction extends Component {
     render () {
         return (
             <div className="container-fluid col-12" onLoad={() => this.displayMessageForNotSecure()}>
-                <br/>
                 <div className="card">
                     <div className="card-header text-white bg-dark">
                         <h2>Liste des musiques traduites</h2>

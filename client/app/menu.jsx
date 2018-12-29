@@ -53,6 +53,7 @@ export class Menu extends Component {
                                     </div>
 
                                     <div className='content col-10'>
+                                        <br/>
                                         <Routing
                                             isAdmin={this.state.isAdmin}
                                             setAdmin={this.state.setAdmin}

@@ -113,3 +113,15 @@ Meteor.methods({
 	}
 });
 
+Meteor.methods({
+	'user.resetPassword': (email) => {
+		let user = Meteor.users.findOne({ 'emails.0.address': email });
+		
+		if (user === undefined) {
+			throw new Meteor.Error(200, "Email non trouvé")
+		}
+		
+		return Accounts.sendResetPasswordEmail(user._id, email);
+	}
+});
+

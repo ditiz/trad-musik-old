@@ -60,7 +60,6 @@ export class VerifiedEmail extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				<br/>
 				<div className={"infoPage alert alert-" + this.state.className}>
 					<div>
 						<h1>{this.state.titre}</h1>

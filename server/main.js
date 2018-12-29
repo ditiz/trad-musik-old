@@ -17,6 +17,9 @@ Meteor.startup(() => {
 	// Edit email verification
 	customVerificationEmail();
 	
+	// Custom reset mail
+
+	
 	// Activate verification email
 	Accounts.config({
 		sendVerificationEmail: true
@@ -26,6 +29,11 @@ Meteor.startup(() => {
 	Accounts.urls.verifyEmail = function(token) {
 		return Meteor.absoluteUrl("verify-email?token=" + token);
 	};
+
+	// Custom reset email url
+	Accounts.urls.resetPassword = function(token) {
+		return Meteor.absoluteUrl("reset-password/" + token);
+	}
 });
 
 
@@ -39,6 +47,21 @@ function customVerificationEmail () {
 	};
 
 	Accounts.emailTemplates.verifyEmail.text = (user, url) => {
-		return 'Cliquer sur le lien suivant pour activité votre compte: ' + url;
+		return 'Cliquer sur le lien suivant pour activé votre compte: ' + url;
+	};
+}
+
+function customVerificationEmail () {
+	Accounts.emailTemplates.resetPassword.from = () => {
+		return 'Traduction-musik';
+	};
+
+	Accounts.emailTemplates.resetPassword.subject = (user) => {
+		return 'Réinitialisation de votre mot de passe';
+	};
+
+	Accounts.emailTemplates.resetPassword.text = (user, url) => {
+		return "Cliquer sur le lien suivant pour "
+			+ "réinitialiser le mot de passe de votre votre compte:" + url;
 	};
 }

@@ -79,7 +79,6 @@ export class Login extends Component {
 
 		return(
 			<div className="container-fluid col-12">
-				<br/>
 				<div className="col-3 container">
 				
 					<div className='card card-header col-12 bg-dark text-white'>
@@ -109,7 +108,7 @@ export class Login extends Component {
 									<input type="submit"
 										id="login-button"
 										className="btn btn-primary btn-lg btn-block"
-										value="Login" />
+										value="Connexion" />
 								</div>
 
 								{error.length > 0
@@ -123,13 +122,14 @@ export class Login extends Component {
 								<div className="form-group text-center">
 									<p className="text-center">
 										Pas encore de compte ?
-										<Link to="/signup">Inscription ici</Link>
+										<div><Link to="/Signup">Inscription ici</Link></div>
+										<div><Link to="/ForgotPassword">Mot de passe oublié ?</Link></div>
 									</p>
 								</div>
 							</div>
 						</form>
 					</div>
-				</div>
+				</div> 
 			</div>
 		);
 	}
