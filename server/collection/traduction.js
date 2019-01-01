@@ -97,20 +97,20 @@ Meteor.methods({
             throw new Meteor.Error(200, "La traduction a mettre a jour n'a pas été trouvé");
         }
 
-        let user = Meteor.users.findOne({ _id: traduction.user });
+        let user = Meteor.users.findOne({ _id: traduction.user_id });
 
         if (typeof user === undefined) {
             new Meteor.Error(200, "Vous n'êtes pas connecté");
-        } else if (traduction.user == Meteor.userId()) {
+        } else if (traduction.user_id == Meteor.userId()) {         
             Traduction.update(
-                { _id: traduction._id},
+                { _id: traduction.traduction_id},
                 {
                     title: traduction.title,
                     artist: traduction.artist,
                     origin: traduction.origin,
                     traduction: traduction.traduction,
                     link: traduction.link,
-                    user: traduction.user
+                    user: traduction.user_id
                 },
                 {upsert: false}
             );

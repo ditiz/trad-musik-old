@@ -13,9 +13,7 @@ Accounts.validateLoginAttempt((options) => {
 			return true;
 		}
 	}
-
-	console.log(options.user);
-
+	
 	// Throw error message if email isn't verified
 	throw new Meteor.Error(200, "emailNotVerify",  options.user._id);
 	

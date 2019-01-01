@@ -166,7 +166,8 @@ export class CreateTraduction extends Component {
                     artist: this.state.artist,
                     origin: this.state.origin,
                     traduction: this.state.traduction,
-                    user_id: this.state.user
+                    user_id: this.state.user,
+                    link: this.state.link
                 };
 
                 Meteor.call('traduction.updateOne', traduction, (err, result) => {
