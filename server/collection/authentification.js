@@ -125,3 +125,23 @@ Meteor.methods({
 	}
 });
 
+Meteor.methods({
+	'user.changePassword': (password, passwordComfirm, token) => {
+		if (password !== passwordComfirm) {
+			throw new Meteor.Error(200, "Les mots de passe de corresponde pas");
+		}
+
+		if (token == '') {
+			throw new Meteor.Error(200, "Il manque l'information pour vérifié votre compte");
+		}
+		
+		let user = Meteor.users.findOne({ "services.password.reset.token": token });
+
+		if (user === undefined) {
+			throw new Meteor.Error(200, "Erreur dans la vérification de votre compte");
+		}
+
+		return Accounts.setPassword(user._id, password);
+	} 
+});
+
