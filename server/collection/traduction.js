@@ -91,9 +91,9 @@ Meteor.methods({
             throw new Meteor.Error(200, "Titre vide");
         } else if (traduction.origin == "") {
             throw new Meteor.Error(200, "Text original vide");
-        } else if (traduction.traduction) {
+        } else if (traduction.traduction == "") {
             throw new Meteor.Error(200, "Aucune traduction donné");
-        } else if (!Traduction.findOne({ _id: traduction._id })){
+        } else if (!Traduction.findOne({ _id: traduction.traduction_id })){
             throw new Meteor.Error(200, "La traduction a mettre a jour n'a pas été trouvé");
         }
 

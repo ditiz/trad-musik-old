@@ -142,7 +142,6 @@ export class CreateTraduction extends Component {
 
         switch (this.state.action) {
             case 'create':
-
                 this.state.user = Meteor.userId();
 
                 Meteor.call('traduction.insertNew', this.state, function (err, result) {
@@ -161,9 +160,18 @@ export class CreateTraduction extends Component {
 
                 break;
             case 'update':
-                Meteor.call('traduction.updateOne', this.state, function (err, result) {
+                let traduction = {
+                    traduction_id: this.state._id,
+                    title: this.state.title,
+                    artist: this.state.artist,
+                    origin: this.state.origin,
+                    traduction: this.state.traduction,
+                    user_id: this.state.user
+                };
+
+                Meteor.call('traduction.updateOne', traduction, (err, result) => {
                     if (err) {
-                        alert("Erreur : ", err.reason);
+                        Bert.alert("Erreur : " + err.reason, 'danger', 'growl-top-right');
                     } else {
                         Bert.alert('La traduction a été mise a jour', 'success', 'growl-top-right');
                         this.setState({
