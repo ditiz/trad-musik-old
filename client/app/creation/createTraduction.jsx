@@ -190,29 +190,15 @@ export class CreateTraduction extends Component {
         this.setState({ link: e.target.value });
     }
 
-
     useTextArea(side, other) {
 
         if (!localStorage.parallelHightlight || localStorage.parallelHightlight == 0) {
             return false;
         }
 
-        if (!!window.chrome && !!window.chrome.webstore) {
-            var colorPassive = "#000";
-            var colorActive = "DarkGray";
-        }
-
-        //Undisplay error 
-        console.error = (function () {
-            var error = console.error;
-
-            return function (exception) {
-                if ((exception + '').indexOf('Warning: A component is `contentEditable`') != 0) {
-                    error.apply(console, arguments)
-                }
-            }
-        })();
-
+        let colorPassive = "#000";
+        let colorActive = "DarkGray";
+        
         //Get element
         let node = document.getSelection().anchorNode;
         let text = '';
@@ -224,81 +210,77 @@ export class CreateTraduction extends Component {
 
         //Remove css 
         let divNode = document.getElementById(side);
+        
+        divNode.childNodes.forEach((element) => {
+            if (element) {
+                if (element.style === undefined) {
+                    let newDiv = document.createElement("div");
+                    let textDiv = document.createTextNode(element.textContent);
 
-        //cas chrome 
-        if (!!window.chrome && !!window.chrome.webstore) {
-            divNode.childNodes.forEach((element) => {
-                if (element) {
-                    if (element.style === undefined) {
-                        let newDiv = document.createElement("div");
-                        let textDiv = document.createTextNode(element.textContent);
+                    newDiv.appendChild(textDiv);
+                    newDiv.style.color = '';
 
-                        newDiv.appendChild(textDiv);
-                        newDiv.style.color = '';
+                    divNode.removeChild(element);
+                    divNode.insertBefore(newDiv, divNode.children[0]);
 
-                        divNode.removeChild(element);
-                        divNode.insertBefore(newDiv, divNode.children[0]);
-
-                    } else {
-                        element.style.color = '';
-                    }
-                    text += element.textContent + '\n';
+                } else {
+                    element.style.color = '';
                 }
-            });
-        }
+                text += element.textContent + '\n';
+            }
+        });
+        
         
         //Set data to save
         this.setState({ [side]: text });
 
         //Set color
-        if (!!window.chrome && !!window.chrome.webstore) {
-            document.getElementById(side).style.color = colorActive;
-            node.style.color = colorPassive;
-        }
+        document.getElementById(side).style.color = colorActive;
+        node.style.color = colorPassive;
+ 
 
         ////////////////////
         ///// Parallel /////
         ////////////////////
 
-        if (!!window.chrome && !!window.chrome.webstore) {
-            //Index of childNode
-            let nodeToCount = node;
-            let nbChild = 0;
-            while ((nodeToCount = nodeToCount.previousSibling) != null)
-                nbChild++;
+    
+        //Index of childNode
+        let nodeToCount = node;
+        let nbChild = 0;
+        while ((nodeToCount = nodeToCount.previousSibling) != null)
+            nbChild++;
 
-            //Color the parallel line
-            let parallelNode = document.getElementById(other).childNodes[nbChild];
+        //Color the parallel line
+        let parallelNode = document.getElementById(other).childNodes[nbChild];
 
-            if (parallelNode) {
-                if (parallelNode.style === undefined) {
-                    let newDiv = document.createElement("div");
-                    let textDiv = document.createTextNode(parallelNode);
+        if (parallelNode) {
+            if (parallelNode.style === undefined) {
+                let newDiv = document.createElement("div");
+                let textDiv = document.createTextNode(parallelNode);
 
-                    newDiv.appendChild(textDiv);
-                    parallelNode = newDiv;
-                }
-                //Remove css 
-                divNode = document.getElementById(other);
-
-                divNode.childNodes.forEach(function (element) {
-                    if (element) {
-                        if (element.style === undefined) {
-                            let newDiv = document.createElement("div");
-                            let textDiv = document.createTextNode(element);
-
-                            newDiv.appendChild(textDiv);
-                            element = newDiv;
-                        }
-                        element.style.color = '';
-                        text += element.textContent + '\n';
-                    }
-                });
-
-                //Set color
-                document.getElementById(other).style.color = colorActive;
-                parallelNode.style.color = colorPassive;
+                newDiv.appendChild(textDiv);
+                parallelNode = newDiv;
             }
+            //Remove css 
+            divNode = document.getElementById(other);
+
+            divNode.childNodes.forEach(function (element) {
+                if (element) {
+                    if (element.style === undefined) {
+                        let newDiv = document.createElement("div");
+                        let textDiv = document.createTextNode(element);
+
+                        newDiv.appendChild(textDiv);
+                        element = newDiv;
+                    }
+                    element.style.color = '';
+                    text += element.textContent + '\n';
+                }
+            });
+
+            //Set color
+            document.getElementById(other).style.color = colorActive;
+            parallelNode.style.color = colorPassive;
         }
        
     }
