@@ -294,7 +294,7 @@ export class CreateTraduction extends Component {
        
     }
 
-    pasteAction(e, side, other) {  
+    pasteAction(e, side, other) { 
         if (!localStorage.parallelHightlight || localStorage.parallelHightlight == 0) {
             return false;
         }
@@ -303,27 +303,21 @@ export class CreateTraduction extends Component {
         if (clipbordContent = e.clipboardData.getData("text")) {
             let base = document.getElementById(side);
             let ArrayContent = [];
-
+            
             e.preventDefault()
 
             ArrayContent = clipbordContent.split("\n");
 
-            //uniquement sous chrome
-            if (!!window.chrome && !!window.chrome.webstore) {
-                ArrayContent.map(
-                    element => {
-                        let newDiv = document.createElement("div");
-                        let textDiv = document.createTextNode(element);
+            ArrayContent.map(
+                element => {
+                    let newDiv = document.createElement("div");
+                    let textDiv = document.createTextNode(element);
 
-                        newDiv.appendChild(textDiv);
-                        base.appendChild(newDiv);
-                    }
-                )
-            }else{
-                ArrayContent.map( element =>
-                    base.innerHTML += element + '<br>'
-                )
-            }
+                    newDiv.appendChild(textDiv);
+                    base.appendChild(newDiv);
+                }
+            );
+            
         }
         this.useTextArea(side, other);
     }
