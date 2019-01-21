@@ -291,7 +291,7 @@ export class CreateTraduction extends Component {
         this.useTextArea(side, other);
     }
 
-    placeCaretAtEnd(el) {
+    placeCaretAtEnd(el) { 
         el.focus();
         if (typeof window.getSelection != "undefined"
             && typeof document.createRange != "undefined") {
