@@ -99,47 +99,19 @@ export class CreateTraduction extends Component {
 
     handleSubmit = () => { 
         if (!localStorage.parallelHightlight || localStorage.parallelHightlight == 0) {
-
-            let strOrigin = document.getElementById('origin').innerHTML ||
-                document.getElementById('origin').textContent;
-            let strTraduction = document.getElementById('traduction').innerHTML ||
-                document.getElementById('traduction').textContent;
-
-            strOrigin = strOrigin.replace(/<\/div>/g, '<br>');
-            strOrigin = strOrigin.replace(/<div>/g, '<br>');
-
-            strTraduction = strTraduction.replace(/\/div><div>/g, '<br>');
-
-            let arrayStrOrigin = strOrigin.split('<br>');
-            let arrayStrTraduction = strTraduction.split('<br>');
-
-            let origin = '';
-            let traduction = '';
-
-            arrayStrOrigin = arrayStrOrigin.filter((element) => {
-                if (element != '') {
-                    return element;
-                }
-            });
-
-            arrayStrTraduction = arrayStrOrigin.filter((element) => {
-                if (element != '') {
-                    return element;
-                }
-            });
-
-            arrayStrOrigin.forEach(element => {
-                origin += element + '\n';
-            });
-
-            arrayStrTraduction.forEach(element => {
-                traduction += element + '\n';
-            });
-
-            this.state.origin = origin;
-            this.state.traduction = traduction;
+            let origin = document.getElementById('origin').innerText;
+            let traduction = document.getElementById('traduction').innerText;
+            
+            this.setState({
+                origin: origin,
+                traduction: traduction
+            }, () => this.saveData());    
+        } else {
+            this.saveData();
         }
+    }
 
+    saveData = () => {
         switch (this.state.action) {
             case 'create':
                 this.state.user = Meteor.userId();
@@ -147,11 +119,11 @@ export class CreateTraduction extends Component {
                 Meteor.call('traduction.insertNew', this.state, function (err, result) {
                     if (err) {
                         Bert.alert(
-                           err.reason,
+                            err.reason,
                             "danger",
                             'growl-top-right'
                         );
-                    } else if (result.status == 'created'){
+                    } else if (result.status == 'created') {
                         Bert.alert('La traduction a été enregisté', 'success', 'growl-top-right');
                     } else if (result.status == 'updated') {
                         Bert.alert('La traduction a été mise à jour', 'success', 'growl-top-right');
@@ -295,10 +267,6 @@ export class CreateTraduction extends Component {
     }
 
     pasteAction(e, side, other) { 
-        if (!localStorage.parallelHightlight || localStorage.parallelHightlight == 0) {
-            return false;
-        }
-
         let clipbordContent = "";
         if (clipbordContent = e.clipboardData.getData("text")) {
             let base = document.getElementById(side);
