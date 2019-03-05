@@ -13,6 +13,7 @@ export class CreateTraduction extends Component {
             title:             '',
             artist:            '',
             link:              '',
+            videoLink:         '',
             origin:            '',
             displayOrigin:     '',
             traduction:        '',
@@ -25,6 +26,7 @@ export class CreateTraduction extends Component {
         this.changeTitle        = this.changeTitle.bind(this);
         this.changeArtist       = this.changeArtist.bind(this);
         this.changeLink         = this.changeLink.bind(this);
+        this.changeVideoLink    = this.changeVideoLink.bind(this);
         this.useTextArea        = this.useTextArea.bind(this);
         this.handleSubmit       = this.handleSubmit.bind(this);
     }
@@ -67,7 +69,8 @@ export class CreateTraduction extends Component {
                         _id:               res._id,
                         title:             res.title,
                         artist:            res.artist,
-                        link:              res.link, 
+                        link:              res.link,
+                        videoLink:         res.videoLink,
                         displayOrigin:     origin,
                         displayTraduction: traduction,
                         origin:            res.origin,
@@ -139,7 +142,8 @@ export class CreateTraduction extends Component {
                     origin: this.state.origin,
                     traduction: this.state.traduction,
                     user_id: this.state.user,
-                    link: this.state.link
+                    link: this.state.link,
+                    videoLink: this.state.videoLink
                 };
 
                 Meteor.call('traduction.updateOne', traduction, (err, result) => {
@@ -169,6 +173,10 @@ export class CreateTraduction extends Component {
 
     changeLink(e) {
         this.setState({ link: e.target.value });
+    }
+
+    changeVideoLink(e) {
+        this.setState({ videoLink: e.target.value });
     }
 
     useTextArea(side, other) {
@@ -381,6 +389,18 @@ export class CreateTraduction extends Component {
                                             className='form-control'
                                             onChange={this.changeLink}
                                             value={this.state.link} />
+                                    </div>
+                                </div>
+
+                                <div className="container row">
+                                    <div className='col-12 form-group'>
+                                        <label htmlFor="videoLink">Lien vers la video de la musique</label>
+                                        <input type="text"
+                                            name="videoLink"
+                                            id="videoLink"
+                                            className='form-control'
+                                            onChange={this.changeVideoLink}
+                                            value={this.state.videoLink} />
                                     </div>
                                 </div>
 
