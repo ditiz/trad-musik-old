@@ -6,6 +6,7 @@ Traduction.traductionSchema = new SimpleSchema({
     artist: { type: String },
     title: { type: String },
     link: { type: String },
+    videoLink: { type: String },
     origin: { type: String },
     traduction: { type: String },
     user: { type: String }
@@ -70,6 +71,7 @@ Meteor.methods({
                     artist: traduction.artist,
                     title: traduction.title,
                     link: traduction.link,
+                    videoLink: traduction.videoLink,
                     origin: traduction.origin,
                     traduction: traduction.traduction,
                     user: user._id
@@ -110,6 +112,7 @@ Meteor.methods({
                     origin: traduction.origin,
                     traduction: traduction.traduction,
                     link: traduction.link,
+                    videoLink: traduction.videoLink,
                     user: traduction.user_id
                 },
                 {upsert: false}
