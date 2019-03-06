@@ -15,6 +15,7 @@ export class DisplayTraduction extends Component {
             title: "",
             artist: "",
             link: "",
+            videoLink: "",
             origin: "",
             traduction: "",
             user: "",
@@ -65,7 +66,7 @@ export class DisplayTraduction extends Component {
         }
     }
 
-    componentWillMount () {
+    componentDidMount () {
         let self = this;
         Meteor.call("traduction.getOne", this.props.match.params.traduction, function (err, res) {
             if (err) {
@@ -102,6 +103,7 @@ export class DisplayTraduction extends Component {
                     title:      res.title,
                     artist:     res.artist,
                     link:       res.link,
+                    videoLink:  res.videoLink,
                     origin:     origin,
                     traduction: traduction,
                     user:       res.user
@@ -152,7 +154,12 @@ export class DisplayTraduction extends Component {
                             </div>
                             <div className="col-6 ">
                                 <div className="pull-right float-right">
-                                    <DisplayImage link={this.state.link} height="10em" width="auto"/>
+                                    <DisplayImage 
+                                        link={this.state.link}
+                                        videoLink={this.state.videoLink} 
+                                        height="10em" 
+                                        width="auto"
+                                    />
                                 </div>
                             </div>
                         </div>
