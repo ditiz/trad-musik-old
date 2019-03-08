@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 
 export function DisplayImage(props) {
 	let render = <p></p>;
@@ -23,25 +24,25 @@ export function DisplayImage(props) {
 	}
 
 	if (props.videoLink !== undefined && props.videoLink != "") {
-		const styleVideo = {
-			position: 'absolute',
-			height: 'auto',
-			width: props.width,
-			maxHeight: "330px",
-			maxWidth: '160px',
-			marginTop: 'auto',
-			marginBottom: 'auto',
-			top: 0,
-			bottom: 0,
-			display: 'block',
-			'&:hover': {
-				display: "",
-			}
-		}
+		const Video = styled.img`
+				position: absolute;
+				height: auto;
+				max-height: 330px;
+				max-width: 160px;
+				margin-top: auto;
+				margin-bottom: auto;
+				top: 0;
+				bottom: 0;
+				opacity: 0;
+				transition: 0.1s;
+				&:hover {
+					opacity: 1;
+				}
+		`
 
 		render = (
 			<a href={props.videoLink} target='_blank'>
-				<img style={styleVideo} src='/img/playIcon.png'/>
+				<Video src='/img/playIcon.png'/>
 				{render}
 			</a>
 		);
