@@ -1,45 +1,45 @@
 /* CSS declarations go here */
 
 li {
-    list-style: none;
+  list-style: none;
 }
 
 .render {
-    white-space: pre-line;
+  white-space: pre-line;
 }
 
 .menu-item {
-    color: #919191;
-    font-size: 20px;
+  color: #919191;
+  font-size: 20px;
 }
 
 .menu {
-    background-color: #343a40;
-    height: 100%;
-    width: 150px;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    overflow-x: hidden;
-    padding-top: 20px;
+  background-color: #343a40;
+  height: 100%;
+  width: 150px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
 }
 
 .listing-item {
-    height: 27em;
+  height: 27em;
 }
 
 .listing-item-image {
-    position: absolute;
-    bottom:3%;
-    left:5%;  
-    right:5%;  
-    margin: auto;
+  position: absolute;
+  bottom: 3%;
+  left: 5%;
+  right: 5%;
+  margin: auto;
 }
 
 .menu-item:hover {
-     color: #FFF;
-     text-decoration: none;
+  color: #fff;
+  text-decoration: none;
 }
 
 .icon-menu {
@@ -49,80 +49,80 @@ li {
 }
 
 .icon-menu:hover {
-    filter: invert(100%);
+  filter: invert(100%);
 }
 
 .button-search {
-    color: #FFF;
-    width : auto;
-    padding : 10px;
-    font-size : 25px;
-    border-right: 1px solid rgb(146, 146, 146);
-    border-top: 1px solid rgb(146, 146, 146);
-    border-bottom: 1px solid rgb(146, 146, 146);
+  color: #fff;
+  width: auto;
+  padding: 10px;
+  font-size: 25px;
+  border-right: 1px solid rgb(146, 146, 146);
+  border-top: 1px solid rgb(146, 146, 146);
+  border-bottom: 1px solid rgb(146, 146, 146);
 }
 
 .input-search {
-    width : auto;
-    padding : 10px;
-    border-left: 1px solid rgb(146, 146, 146);
-    border-top: 1px solid rgb(146, 146, 146);
-    border-bottom: 1px solid rgb(146, 146, 146);
+  width: auto;
+  padding: 10px;
+  border-left: 1px solid rgb(146, 146, 146);
+  border-top: 1px solid rgb(146, 146, 146);
+  border-bottom: 1px solid rgb(146, 146, 146);
 }
 
 .parallelHightlight-parent {
-    display: flex;
-    justify-content: space-between;
-    flex-flow: row wrap;
-    width: 50%;
-    margin: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  width: 50%;
+  margin: auto;
 }
 
 .content {
-    margin-left: 200px;
+  margin-left: 200px;
 }
 
 .link-white {
-    text-decoration: none;
-    color: white;
+  text-decoration: none;
+  color: white;
 }
 
 .link-white:hover {
-    text-decoration: underline;
-    color: white;
+  text-decoration: underline;
+  color: white;
 }
 
 .infoPage {
-    margin: auto;
-    text-align: center;
-    font-size: 2em;
+  margin: auto;
+  text-align: center;
+  font-size: 2em;
 }
 
 .infoPage h1 {
-    font-size: 2em;
-    color: #40739e;
+  font-size: 2em;
+  color: #40739e;
 }
 
-.notFound h1{
-    font-size: 5em;
+.notFound h1 {
+  font-size: 5em;
 }
 
 .listingStyle-right {
-    position: absolute;
-    right: 0;
-    top: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .listingStyle-right > * {
-    margin: 5px 5px;
-    transform: 50%;
+  margin: 5px 5px;
+  transform: 50%;
 }
 
-.listingStyle-remove > * > *{
-    /* padding: 10px 15px; */
-    font-size: 30px; 
+.listingStyle-remove > * > * {
+  /* padding: 10px 15px; */
+  font-size: 30px;
 }
 
 .btn {
-    cursor: pointer;
+  cursor: pointer;
 }
